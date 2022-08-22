@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate} from "react-router-dom"
-import { Input, InputLabel, Button, FormControl } from '@mui/material'
+import { Input, InputLabel, Button, FormControl, Alert, Container } from '@mui/material'
 
 const Register = () => {
     const initial = {
@@ -53,7 +53,9 @@ const Register = () => {
                     name="password"
                     />               
             </FormControl>
-            {message ? <p>{message}</p> : <p></p>}
+            <Container>
+            {message ? <Alert severity="error">{message}</Alert> : <p></p>}
+            </Container>
             <div className="register">
                 <Button type="submit" variant="contained">Register</Button>
             </div>

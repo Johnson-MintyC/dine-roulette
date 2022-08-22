@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import { useState } from "react";
+
+import { createTheme, colors, ThemeProvider } from "@mui/material";
 
 import Landing from "./component/Landing";
 import Home from "./component/Home";
@@ -9,20 +11,39 @@ import NavBar from "./component/NavBar";
 
 import Location from "./component/Locations/Locations";
 import NewLocation from "./component/Locations/NewLocation";
+import EditLocation from "./component/Locations/EditLocation";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: colors.deepPurple[300],
+    },
+  },
+});
 function App() {
+  const [authorised, setAuthorised] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
   return (
-    <div className="App">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/location" element={<Location />} />
-        <Route path="/newlocation" element={<NewLocation />} />
-      </Routes>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <NavBar
+          sx={{ bgcolor: "primary.main" }}
+          setAuthorised={setAuthorised}
+        />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/register"
+            element={<Register setAuthorised={setAuthorised} />}
+          />
+          <Route path="/location" element={<Location />} />
+          <Route path="/location/new" element={<NewLocation />} />
+          <Route path="/location/:locationID" element={<EditLocation />} />
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 
