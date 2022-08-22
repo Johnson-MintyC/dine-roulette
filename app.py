@@ -1,14 +1,32 @@
-from enum import unique
-from turtle import title
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import (
+    Flask,
+    jsonify, 
+    request,
+    g,
+    session)
 
 from .db import get_db, close_db
 
-#Instantiate
+#For Hashing
+from werkzeug.security import generate_password_hash, check_password_hash
+
+import psycopg2
+
+import os
+
+#Instantiations, env variables
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'afkjku234b5ri234b5'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dine-roulette.db'
+app.secret_key = os.environ.get('SECRET_KEY')
+
+#db call decorator, and close after req
+@app.before_request
+def connect_to_db():
+    get_db()
+
+@app.after_request
+def disconnect_from_db(response):
+    close_db()
+    return response
 
 #Index Route
 @app.route("/api")
