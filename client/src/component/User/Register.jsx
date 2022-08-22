@@ -56,7 +56,7 @@ const Register = (props) => {
                     />               
             </FormControl>
             <Container>
-            {message ? <Alert severity="error">{message}</Alert> : <p></p>}
+            {message ? <Alert severity="info">{message}</Alert> : <p></p>}
             </Container>
             <div className="register">
                 <Button type="submit" variant="contained">Register</Button>

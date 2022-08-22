@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Input, InputLabel, Button, FormControl } from '@mui/material'
+import { Input, InputLabel, Button, FormControl, Alert } from '@mui/material'
 
 const Login = (props) => {
     const initial = {
         username: "",
         password: ""}
     const [fields, setFields] = useState(initial)
+    const [message, setMessage] = useState(null)
     const handleChange = (event) => {
         setFields({
           ...fields,
@@ -22,7 +23,13 @@ const Login = (props) => {
             body: JSON.stringify(fields)
         })
         const data = await res.json()
-        console.log(data)
+        if (data.success) {
+            props.setAuthorised(true)
+            props.setCurrentUser(data.user)
+        }
+        else {
+            setMessage(data.msg)
+        }
     }
 
     return (
@@ -48,6 +55,7 @@ const Login = (props) => {
                         name="password"
                         />
                 </FormControl>
+                {message ? <Alert severity="warning">{message}</Alert>:<></>}
                 <div className="login">
                     <Button type="submit" variant="contained">Login</Button>
                 </div>

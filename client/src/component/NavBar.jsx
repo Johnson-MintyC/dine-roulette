@@ -30,7 +30,7 @@ const NavBar = (props) => {
         <AppBar position="static">
             <Container>
             <Toolbar>
-                <IconButton size='medium' edge='start' color='inherit' aria-logo='logo'>
+                <IconButton size='medium' edge='start' color='inherit' aria-label='logo'>
                     <Link to="/home">
                         <img className="logo-img" src={rouletteicon} />
                     </Link>
