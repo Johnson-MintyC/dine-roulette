@@ -70,7 +70,7 @@ def register():
     password = request.json['password']
     #Salting the pass
     password_hash = generate_password_hash(password)
-    #SQL db query
+    #SQL db query, Returning user data to be used for session later
     query = """
         INSERT INTO users
         (username, password_hash)
@@ -91,6 +91,40 @@ def register():
     user = cur.fetchone()
     
     return jsonify(success=True, user=user)
+
+#Login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json['username']
+    password = request.json['password']
+
+    query = """
+        SELECT * FROM users
+        WHERE username = %s
+    """
+
+    cur = g.db['cursor']
+    #cursor execute, trailing comma for tuple
+    cur.execute(query, (username,))
+    user = cur.fetchone()
+
+    #User no match
+    if user is None:
+        return jsonify(succes=False, msg="Username or password is incorrect")
+
+    #Bool return, if user valid, compares its hashed pass against what user entered
+    password_matches = check_password_hash(user['password_hash'], password)
+
+    if not password_matches:
+        return jsonify(succes=False, msg="Username or password is incorrect")
+    
+    #Query returns everything, removing pass in backend before returning to front
+    user.pop('password_hash')
+
+    return jsonify(success=True, user=user)
+
+
+
 
 
 
