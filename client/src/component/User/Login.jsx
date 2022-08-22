@@ -33,7 +33,7 @@ const Login = (props) => {
     }
 
     return (
-        <div>
+        <div className="centerTheForm">
             <form onSubmit={handleSubmit}>
             <h3>Sign In</h3>
                 <FormControl sx={{ marginBottom: 3}}>

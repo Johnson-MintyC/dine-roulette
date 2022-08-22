@@ -13,23 +13,23 @@ import addresspin from "../../assets/address.png"
 const NewLocation = () => {
     const initital = {
         title: "",
-        location: "" 
+        address: "" 
     }
     const [fields, setFields] = useState(initital)
-    const [location, setLocation] = useState(null);
+    const [address, setAddress] = useState(null);
     const GeoApiKey = process.env.REACT_APP_GEO_API
     const GoogleApiKey = process.env.REACT_APP_GOOGLE
 
     useEffect(() => {
-        setFields({ ...fields, location: location });
-      }, [location])
+        setFields({ ...fields, address: address });
+      }, [address])
 
     const geofunc = () => {
         const locationsetter = async (x, y) => {
             const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${x}&lon=${y}&apiKey=${GeoApiKey}`
             const reponse = await fetch(url)
             const data = await reponse.json()
-            setLocation(data.features[0].properties.formatted)
+            setAddress(data.features[0].properties.formatted)
         }
 
         const success = (position) => {
@@ -54,6 +54,12 @@ const NewLocation = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        // const res = await fetch("/locations/new", {
+        //     method: 'POST', 
+        //     headers: { 'Content-Type': 'application/json'},
+        //     body: JSON.stringify(fields)
+        // })
+        // const data = await res.json()
         console.log(fields)
     }   
 
@@ -77,11 +83,11 @@ const NewLocation = () => {
                     <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root">
                         <Autocomplete
                         className="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                        apiKey={process.env.REACT_APP_GOOGLE}
+                        apiKey={GoogleApiKey}
                         options={{types}}
-                        value={fields.location}
+                        value={fields.address}
                         onPlaceSelected={(place) => {
-                            setLocation(place.formatted_address)
+                            setAddress(place.formatted_address)
                         }}/>
                         <img src={addresspin} onClick={geofunc}/>
                     </div>

@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { createTheme, colors, ThemeProvider } from "@mui/material";
+import "./App.css";
 
 import Landing from "./component/Landing";
 import Home from "./component/Home";

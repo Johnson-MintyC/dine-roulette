@@ -7,6 +7,9 @@ from flask import (
 
 from .db import get_db, close_db
 
+import requests, json
+from requests.structures import CaseInsensitiveDict
+
 #For Hashing
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -44,9 +47,18 @@ def locations():
     return "all locations"
 
 
-# @app.route("/locations/new", methods=['POST'])
-# def new_location():
-
+@app.route("/locations/new", methods=['POST'])
+def new_location():
+    title = request.json['title']
+    address = request.json['address']
+    addrnocomma = address.replace(", ", "%2C%20")
+    queryAddr = addrnocomma.replace(" ", "%20")
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+    resp = requests.get(f"https://api.geoapify.com/v1/geocode/search?text={queryAddr}&apiKey={os.environ.get('GEO_KEY')}", headers=headers)
+    data = resp.json()
+    print(data['features'][0]['properties']['lon'])
+    return ""
 
 #Locations One
 @app.route("/locations/<location_id>")
