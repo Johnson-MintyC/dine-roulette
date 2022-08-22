@@ -112,13 +112,13 @@ def login():
 
     #User no match
     if user is None:
-        return jsonify(succes=False, msg="Username or password is incorrect")
+        return jsonify(success=False, msg="Username or password is incorrect")
 
     #Bool return, if user valid, compares its hashed pass against what user entered
     password_matches = check_password_hash(user['password_hash'], password)
 
     if not password_matches:
-        return jsonify(succes=False, msg="Username or password is incorrect")
+        return jsonify(success=False, msg="Username or password is incorrect")
     
     #Query returns everything, removing pass in backend before returning to front
     user.pop('password_hash')
