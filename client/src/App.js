@@ -21,7 +21,7 @@ const theme = createTheme({
   },
 });
 function App() {
-  const [authorised, setAuthorised] = useState(true);
+  const [authorised, setAuthorised] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   return (
     <ThemeProvider theme={theme}>
@@ -30,17 +30,28 @@ function App() {
           sx={{ bgcolor: "primary.main" }}
           authorised={authorised}
           setAuthorised={setAuthorised}
+          setCurrentUser={setCurrentUser}
         />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route
             path="/login"
-            element={<Login setAuthorised={setAuthorised} />}
+            element={
+              <Login
+                setAuthorised={setAuthorised}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
           <Route
             path="/register"
-            element={<Register setAuthorised={setAuthorised} />}
+            element={
+              <Register
+                setAuthorised={setAuthorised}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
           <Route path="/location" element={<Location />} />
           <Route path="/location/new" element={<NewLocation />} />

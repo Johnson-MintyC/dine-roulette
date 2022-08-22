@@ -25,6 +25,7 @@ const Register = (props) => {
         const data = await res.json()
         if (data.success) {
             props.setAuthorised(true)
+            props.setCurrentUser(data.user)
             navigate('/home')
         }
         else {

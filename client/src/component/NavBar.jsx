@@ -22,6 +22,7 @@ const NavBar = (props) => {
         })
         const data = await res.json()
         props.setAuthorised(false)
+        props.setCurrentUser(null)
         navigate("/")
     }
 

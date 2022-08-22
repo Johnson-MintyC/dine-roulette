@@ -17,12 +17,12 @@ const Login = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         const res = await fetch("/login", {
-            methods: 'POST', 
+            method: 'POST', 
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(fields)
         })
         const data = await res.json()
-        print(data)
+        console.log(data)
     }
 
     return (
