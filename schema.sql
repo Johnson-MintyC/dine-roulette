@@ -7,10 +7,11 @@ CREATE TABLE users (
   password_hash TEXT NOT NULL
 );
 
-CREATE TABLE location locations (
+CREATE TABLE locations (
     id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    location TEXT NOT NULL,
-    geocode TEXT NOT NULL,
+    address TEXT NOT NULL,
+    long TEXT NOT NULL,
+    lati TEXT NOT NULL,
     user_id SERIAL REFERENCES users (id) ON DELETE CASCADE
 )
