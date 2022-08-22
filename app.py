@@ -134,6 +134,16 @@ def logout():
     session.pop('user', None)
     return jsonify(success=True)
 
+#Authentication and session details, for authorised state
+@app.route('/is-authenticated')
+def is_authenticated():
+    user = session.get('user', None)
+    if user:
+        return jsonify(success=True, user=user)
+
+    else:
+        return jsonify(success=False, msg='User is not logged in')
+
 
 
 
