@@ -41,10 +41,16 @@ def home():
 def locations():
     return "all locations"
 
+
+# @app.route("/locations/new", methods=['POST'])
+# def new_location():
+
+
 #Locations One
 @app.route("/locations/<location_id>")
 def indlocation():
     return "one location"
+
 
 ################################
 #   Categories
@@ -53,9 +59,15 @@ def indlocation():
 
 
 ################################
-#   User
+#   User/Registration
 ################################
-
+#New User
+@app.route('/register', methods=['POST'])
+def register():
+    username = request.json['username']
+    password = request.json['password']
+    print(username, password)
+    return ""
 
 
 
