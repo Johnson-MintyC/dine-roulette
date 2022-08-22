@@ -28,7 +28,7 @@ class Location(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 #Index Route
-@app.route("/")
+@app.route("/api")
 def home():
     return "Return locations and Cat"
 
