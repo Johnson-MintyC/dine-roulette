@@ -10,6 +10,7 @@ from .db import get_db, close_db
 #For Hashing
 from werkzeug.security import generate_password_hash, check_password_hash
 
+#For 'cursor', allows python to run PSQL
 import psycopg2
 
 import os
@@ -28,6 +29,7 @@ def disconnect_from_db(response):
     close_db()
     return response
 
+################################
 #Index Route
 @app.route("/api")
 def home():
@@ -66,8 +68,29 @@ def indlocation():
 def register():
     username = request.json['username']
     password = request.json['password']
-    print(username, password)
-    return ""
+    #Salting the pass
+    password_hash = generate_password_hash(password)
+    #SQL db query
+    query = """
+        INSERT INTO users
+        (username, password_hash)
+        VALUES (%s,%s)
+        RETURNING id, username
+    """
+    #cur instant, to execute the psql query
+    cur = g.db['cursor']
+    #attempt insertion, replacing the placeholder values
+    try:
+        cur.execute(query, (username, password_hash))
+    except psycopg2.IntegrityError:
+        return jsonify(success=False, msg='Username already taken')
+
+    #Commits the pending transaction to the db
+    g.db['connection'].commit()
+    #reponse data of the user created
+    user = cur.fetchone()
+    
+    return jsonify(success=True, user=user)
 
 
 
