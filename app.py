@@ -104,7 +104,7 @@ def login():
     """
 
     cur = g.db['cursor']
-    #cursor execute, trailing comma for tuple
+    #cursor class to execute psql, trailing comma for tuple
     cur.execute(query, (username,))
     user = cur.fetchone()
 
@@ -122,6 +122,8 @@ def login():
     user.pop('password_hash')
 
     return jsonify(success=True, user=user)
+
+
 
 
 
