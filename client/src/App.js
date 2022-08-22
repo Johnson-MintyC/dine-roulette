@@ -28,12 +28,16 @@ function App() {
       <div className="App">
         <NavBar
           sx={{ bgcolor: "primary.main" }}
+          authorised={authorised}
           setAuthorised={setAuthorised}
         />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login setAuthorised={setAuthorised} />}
+          />
           <Route
             path="/register"
             element={<Register setAuthorised={setAuthorised} />}

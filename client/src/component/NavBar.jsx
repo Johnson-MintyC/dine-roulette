@@ -5,17 +5,29 @@ import {
     Typography,
     IconButton,
     Stack,
-    Button
+    Button,
+    Container
 } from "@mui/material"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import rouletteicon from "../assets/roulette-iconp.png"
 import "./NavBar.css";
 
-const NavBar = () => {
-    
+const NavBar = (props) => {
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        const res = await fetch("/logout", {
+            method: "POST",
+        })
+        const data = await res.json()
+        props.setAuthorised(false)
+        navigate("/")
+    }
+
     return (
         <AppBar position="static">
+            <Container>
             <Toolbar>
                 <IconButton size='medium' edge='start' color='inherit' aria-logo='logo'>
                     <Link to="/home">
@@ -25,13 +37,17 @@ const NavBar = () => {
                 <Typography variant="h4" component='div' sx={{ flexGrow: 1 }}>
                     <Link to="/home">Dine Roulette</Link>
                 </Typography>
+                {props.authorised ? 
                 <Stack direction='row' spacing={2} >
-                    <Button color='inherit'>Location</Button>
-                    <Button color='inherit'>Categories</Button>
-                    <Button color='inherit'>Login</Button>
-                </Stack>
-                
+                    <Button color='inherit' onClick={()=>navigate('/location')}>Location</Button>
+                    <Button color='inherit' onClick={()=>navigate('/categories')}>Categories</Button>
+                    <Button color='inherit' onClick={handleLogout}>Logout</Button>
+                </Stack>: 
+                <Stack direction='row' spacing={2} >
+                    <Button color='inherit' onClick={()=>navigate('/login')}>Login</Button>
+                </Stack>}
             </Toolbar>
+            </Container>
         </AppBar>
     )
 }

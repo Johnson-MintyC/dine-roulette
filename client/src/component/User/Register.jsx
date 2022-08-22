@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate} from "react-router-dom"
 import { Input, InputLabel, Button, FormControl, Alert, Container } from '@mui/material'
 
-const Register = () => {
+const Register = (props) => {
     const initial = {
         username: "",
         password: ""}
@@ -24,6 +24,7 @@ const Register = () => {
         })
         const data = await res.json()
         if (data.success) {
+            props.setAuthorised(true)
             navigate('/home')
         }
         else {

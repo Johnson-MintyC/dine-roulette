@@ -89,6 +89,8 @@ def register():
     g.db['connection'].commit()
     #reponse data of the user created
     user = cur.fetchone()
+
+    session['user'] = user
     
     return jsonify(success=True, user=user)
 
@@ -121,7 +123,16 @@ def login():
     #Query returns everything, removing pass in backend before returning to front
     user.pop('password_hash')
 
+    session['user'] = user
+
     return jsonify(success=True, user=user)
+
+#Logout
+@app.route('/logout', methods=['POST'])
+def logout():
+    print(session['user'])
+    session.pop('user', None)
+    return jsonify(success=True)
 
 
 

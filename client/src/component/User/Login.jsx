@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Input, InputLabel, Button, FormControl } from '@mui/material'
 
-const Login = () => {
+const Login = (props) => {
     const initial = {
         username: "",
         password: ""}
@@ -14,9 +14,15 @@ const Login = () => {
         })
       }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log("login")
+        const res = await fetch("/login", {
+            methods: 'POST', 
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(fields)
+        })
+        const data = await res.json()
+        print(data)
     }
 
     return (
