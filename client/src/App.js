@@ -87,7 +87,16 @@ function App() {
           ) : (
             <></>
           )}
-          <Route path="/location/new" element={<NewLocation />} />
+          {/* New Location Route */}
+          <Route
+            path="/location/new"
+            element={
+              <NewLocation
+                allLocations={allLocations}
+                setAllLocations={setAllLocations}
+              />
+            }
+          />
           <Route path="/location/:locationID" element={<EditLocation />} />
         </Routes>
       </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 import { Input,
     Button, 
     FormGroup, 
@@ -10,7 +11,7 @@ import Autocomplete from "react-google-autocomplete";
 
 import addresspin from "../../assets/address.png"
     
-const NewLocation = () => {
+const NewLocation = (props) => {
     const initital = {
         title: "",
         address: "" 
@@ -23,6 +24,8 @@ const NewLocation = () => {
     useEffect(() => {
         setFields({ ...fields, address: address });
       }, [address])
+
+    const navigate = useNavigate()
 
     const geofunc = () => {
         const locationsetter = async (x, y) => {
@@ -60,6 +63,10 @@ const NewLocation = () => {
         })
         const data = await res.json()
         console.log(data)
+        const updatedLocations = [...props.allLocations, {title: data.title,
+        address: data.address, id:data.id, user_id:data.user_id}]
+        props.setAllLocations(updatedLocations)
+        navigate("/location")
     }   
 
     //Change Autocomplete fields, default on city
