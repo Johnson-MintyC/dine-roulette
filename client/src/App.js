@@ -100,7 +100,12 @@ function App() {
           {allLocations ? (
             <Route
               path="/location/:locationID"
-              element={<EditLocation allLocations={allLocations} />}
+              element={
+                <EditLocation
+                  allLocations={allLocations}
+                  setAllLocations={setAllLocations}
+                />
+              }
             />
           ) : (
             <></>

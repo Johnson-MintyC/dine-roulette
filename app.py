@@ -106,6 +106,7 @@ def updlocation(location_id):
             RETURNING *
         """
         cur.execute(updateTitleQuery, (title, location_id, user['id']))
+        g.db['connection'].commit()
         updatedLocation = g.db['cursor'].fetchone()
         return jsonify(updatedLocation)
     else:
@@ -126,6 +127,7 @@ def updlocation(location_id):
         long = data['features'][0]['properties']['lon']
         lati = data['features'][0]['properties']['lat']
         cur.execute(query, (title, address, long, lati, location_id, user['id']))
+        g.db['connection'].commit()
         updatedLocation = g.db['cursor'].fetchone()
         return jsonify(updatedLocation)
 

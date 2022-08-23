@@ -46,6 +46,7 @@ const EditLocation = (props) => {
                     body: JSON.stringify(noAddrfieldChange)
                 })
             const data = await res.json();
+            console.log(data)
         }
         else {
             const updateEverthing = {...fields, noCall:false}
@@ -55,6 +56,7 @@ const EditLocation = (props) => {
                 body: JSON.stringify(updateEverthing)
             })
             const data = await res.json()
+            console.log(data)
         }
     } 
 
