@@ -35,6 +35,20 @@ function App() {
     loginCheck();
   }, []);
 
+  ////////////////////////////////////////
+  //  For locations
+  ////////////////////////////////////////
+  const [allLocations, setAllLocations] = useState(null);
+  //Fetch just locations
+  const locationFetch = async () => {
+    const res = await fetch("/locations");
+    const data = await res.json();
+    setAllLocations(data);
+    console.log(data, "data");
+    console.log(allLocations, "setter");
+  };
+  useEffect(() => locationFetch, []);
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -65,7 +79,14 @@ function App() {
               />
             }
           />
-          <Route path="/location" element={<Location />} />
+          {allLocations ? (
+            <Route
+              path="/location"
+              element={<Location allLocations={allLocations} />}
+            />
+          ) : (
+            <></>
+          )}
           <Route path="/location/new" element={<NewLocation />} />
           <Route path="/location/:locationID" element={<EditLocation />} />
         </Routes>

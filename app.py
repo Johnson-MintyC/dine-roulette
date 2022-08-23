@@ -46,7 +46,7 @@ def home():
 def locations():
     user = session.get('user', None)
     query = """
-        SELECT locations.title, locations.address FROM locations
+        SELECT locations.title, locations.address, locations.id, locations.user_id FROM locations
         JOIN users ON locations.user_id = users.id
         WHERE locations.user_id = %s
     """

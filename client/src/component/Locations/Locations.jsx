@@ -1,8 +1,21 @@
-const Location = () => {
+import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
 
-    return (<div>
+const Location = (props) => {
+
+     const AllTheLocations = props.allLocations.map((locale) => {
+            return (<div>
+                <h1>{locale.title}</h1>
+            </div>)
+    })
+
+    return (
+    <div>
         <h1>Locations</h1>
-    </div>)
+        <Link to="/location/new"><h2>Add a Location</h2></Link>
+        {AllTheLocations}
+    </div>
+    )
 }
 
 export default Location

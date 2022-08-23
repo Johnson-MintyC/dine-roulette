@@ -10,6 +10,9 @@ import { Input,
     Select } from '@mui/material'
 
 const Home = () => {
+    /////////////////////////////////////////
+    //  Fields Related
+    ////////////////////////////////////////
     const initial = {
         location: "select",
         criteria: "select",
