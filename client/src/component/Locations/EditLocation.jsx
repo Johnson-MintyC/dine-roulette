@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Input,
+import { Input, Box,
     Button, 
     FormGroup, 
     FormControl, 
@@ -63,12 +63,28 @@ const EditLocation = (props) => {
         navigate("/location")
     } 
 
+    const handleDelete = async () => {
+        const res = await fetch(`/locations/${locationID}`, {
+          method: "DELETE",
+          header: `Content-Type: application/json`,
+        });
+        await res.json()
+    
+        const minusLocation = allLocations.filter((deets) => {
+          return deets.id !== parseInt(locationID)
+        })
+        setAllLocations(minusLocation)
+        navigate("/location")
+      };
+
     const types = ["street_address"]
 
     return (<div>
-        <h1>Edit {showLocation.title}</h1>
+        <Box size='size' sx={{display: "flex"}}>
+            <h1>Edit {showLocation.title}</h1>
+            <IconButton onClick={handleDelete}><img src={trashIcon}/></IconButton>
+        </Box>
         <Container>
-        <IconButton ><img src={trashIcon}/></IconButton>
         <form method="post" onSubmit={handleSubmit}>
             <FormControl>
                 <FormGroup sx={{ marginBottom: 3}}>
