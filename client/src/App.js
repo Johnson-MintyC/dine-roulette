@@ -97,7 +97,14 @@ function App() {
               />
             }
           />
-          <Route path="/location/:locationID" element={<EditLocation />} />
+          {allLocations ? (
+            <Route
+              path="/location/:locationID"
+              element={<EditLocation allLocations={allLocations} />}
+            />
+          ) : (
+            <></>
+          )}
         </Routes>
       </div>
     </ThemeProvider>

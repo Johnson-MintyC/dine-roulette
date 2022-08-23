@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import (
     Flask,
     jsonify, 
@@ -46,7 +47,7 @@ def home():
 def locations():
     user = session.get('user', None)
     query = """
-        SELECT locations.title, locations.address, locations.id, locations.user_id FROM locations
+        SELECT locations.title, locations.address, locations.id, locations.long, locations.lati, locations.user_id FROM locations
         JOIN users ON locations.user_id = users.id
         WHERE locations.user_id = %s
     """
@@ -55,7 +56,7 @@ def locations():
     allLocations = g.db['cursor'].fetchall()
     return jsonify(allLocations)
 
-
+#New Location 
 @app.route("/locations/new", methods=['POST'])
 def new_location():
     title = request.json['title']
@@ -87,9 +88,23 @@ def new_location():
 
     return jsonify(location)
 
-#Locations One
-@app.route("/locations/<location_id>")
-def indlocation():
+#Updating Location
+@app.route("/locations/<location_id>", methods=['PUT'])
+def updlocation(location_id):
+    title = request.json['title']
+    address = request.json['address']
+
+    user = session.get('user', None)
+    query = """
+        UPDATE locations
+        SET title = %s, address = %s
+        WHERE locations.id = %s
+        AND locations.user_id = %s
+        RETURNING *
+    """
+    cur = g.db['cursor']
+    cur.execute(query, (title, address, location_id, user['id']))
+
     return "one location"
 
 

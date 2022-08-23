@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 
+import { Card, CardActionArea, Typography } from "@mui/material"
+
 const Location = (props) => {
     console.log(props.allLocations)
 
     const AllTheLocations = props.allLocations.map((locale) => {
-            return (<div>
-                <h1>{locale.title}</h1>
-            </div>)
+            return (<Card sx={{ maxWidth: 345 }}>
+                <Link to={`/location/${locale.id}`}>
+                <CardActionArea>
+                    <Typography variant="h3" color='inherit'>{locale.title}</Typography>
+                </CardActionArea>   
+                </Link>
+            </Card>)
     })
 
     return (

@@ -12,11 +12,11 @@ import Autocomplete from "react-google-autocomplete";
 import addresspin from "../../assets/address.png"
     
 const NewLocation = (props) => {
-    const initital = {
+    const initial = {
         title: "",
         address: "" 
     }
-    const [fields, setFields] = useState(initital)
+    const [fields, setFields] = useState(initial)
     const [address, setAddress] = useState(null);
     const GeoApiKey = process.env.REACT_APP_GEO_API
     const GoogleApiKey = process.env.REACT_APP_GOOGLE
@@ -86,9 +86,10 @@ const NewLocation = (props) => {
                 
                 <FormGroup sx={{ marginBottom: 3}}>
                     <FormLabel htmlFor="address">Address:</FormLabel>
-                    <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-1ptx2yq-MuiInputBase-root-MuiInput-root">
+                    <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-1i1ae5c-MuiInputBase-root-MuiInput-root">
                         <Autocomplete
                         className="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+                        name="address"
                         apiKey={GoogleApiKey}
                         options={{types}}
                         value={fields.address}

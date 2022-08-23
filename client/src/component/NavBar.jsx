@@ -40,7 +40,7 @@ const NavBar = (props) => {
                 </Typography>
                 {props.authorised ? 
                 <Stack direction='row' spacing={2} >
-                    <Button color='inherit' onClick={()=>navigate('/location')}>Location</Button>
+                    <Button color='inherit' onClick={()=>navigate('/location')}>Locations</Button>
                     <Button color='inherit' onClick={()=>navigate('/categories')}>Categories</Button>
                     <Button color='inherit' onClick={handleLogout}>Logout</Button>
                 </Stack>: 
