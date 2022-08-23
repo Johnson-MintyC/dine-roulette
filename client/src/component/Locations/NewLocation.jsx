@@ -80,7 +80,7 @@ const NewLocation = (props) => {
                 <FormGroup sx={{ marginBottom: 3}}>
                     
                     <FormLabel htmlFor="title">Title:</FormLabel>
-                    <Input name="title" type="text" value={fields.title} onChange={handleChange}/>
+                    <Input name="title" type="text" value={fields.title} onChange={handleChange} required/>
            
                 </FormGroup>
                 
@@ -95,7 +95,8 @@ const NewLocation = (props) => {
                         value={fields.address}
                         onPlaceSelected={(place) => {
                             setAddress(place.formatted_address)
-                        }}/>
+                        }}
+                        required/>
                         <img src={addresspin} onClick={geofunc}/>
                     </div>
                 </FormGroup>

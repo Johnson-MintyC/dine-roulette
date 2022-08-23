@@ -37,18 +37,25 @@ const EditLocation = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(fields)
-        // const res = await fetch("/locations/new", {
-        //     method: 'POST', 
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify(fields)
-        // })
-        // const data = await res.json()
-        // console.log(data)
-        // const updatedLocations = [...props.allLocations, {title: data.title,
-        // address: data.address, id:data.id, user_id:data.user_id}]
-        // props.setAllLocations(updatedLocations)
-        // navigate("/location")
+        if (fields.address === initial.address || fields.address === null) {
+            const noAddrfieldChange = {...fields, address: initial.address, noCall:true}
+            console.log(noAddrfieldChange)
+            const res = await fetch(`/locations/${locationID}`, {
+                    method: 'PUT', 
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify(noAddrfieldChange)
+                })
+            const data = await res.json();
+        }
+        else {
+            const updateEverthing = {...fields, noCall:false}
+            const res = await fetch(`/locations/${locationID}`, {
+                method: 'PUT', 
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(updateEverthing)
+            })
+            const data = await res.json()
+        }
     } 
 
     const types = ["street_address"]
@@ -61,7 +68,7 @@ const EditLocation = (props) => {
                 <FormGroup sx={{ marginBottom: 3}}>
                 
                     <FormLabel htmlFor="title">Title:</FormLabel>
-                    <Input name="title" type="text" value={fields.title} onChange={handleChange}/>
+                    <Input name="title" type="text" value={fields.title} onChange={handleChange} required/>
            
                 </FormGroup>
                 
@@ -77,10 +84,11 @@ const EditLocation = (props) => {
                         value={fields.address}
                         onPlaceSelected={(place) => {
                             setAddress(place.formatted_address)
-                        }}/>
+                        }}
+                        required/>
                     </div>
                 </FormGroup>
-            <Button type="submit" variant="contained">Update</Button> 
+            <Button type="submit" variant="contained">Update</Button>
         </FormControl>
         </form>
         </Container>

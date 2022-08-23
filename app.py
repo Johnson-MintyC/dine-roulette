@@ -93,21 +93,43 @@ def new_location():
 def updlocation(location_id):
     title = request.json['title']
     address = request.json['address']
+    noCall= request.json['noCall']
 
     user = session.get('user', None)
-    query = """
-        UPDATE locations
-        SET title = %s, address = %s
-        WHERE locations.id = %s
-        AND locations.user_id = %s
-        RETURNING *
-    """
     cur = g.db['cursor']
-    cur.execute(query, (title, address, location_id, user['id']))
+    if noCall:
+        updateTitleQuery = """
+            UPDATE locations
+            SET title = %s
+            WHERE locations.id = %s
+            AND locations.user_id = %s
+            RETURNING *
+        """
+        cur.execute(updateTitleQuery, (title, location_id, user['id']))
+        updatedLocation = g.db['cursor'].fetchone()
+        return jsonify(updatedLocation)
+    else:
+        query = """
+            UPDATE locations
+            SET title = %s, address = %s, long = %s, lati = %s
+            WHERE locations.id = %s
+            AND locations.user_id = %s
+            RETURNING *
+        """
+        #parse the formatted address to querable form
+        addrnocomma = address.replace(", ", "%2C%20")
+        queryAddr = addrnocomma.replace(" ", "%20")
+        headers = CaseInsensitiveDict()
+        headers["Accept"] = "application/json"
+        resp = requests.get(f"https://api.geoapify.com/v1/geocode/search?text={queryAddr}&apiKey={os.environ.get('GEO_KEY')}", headers=headers)
+        data = resp.json()
+        long = data['features'][0]['properties']['lon']
+        lati = data['features'][0]['properties']['lat']
+        cur.execute(query, (title, address, long, lati, location_id, user['id']))
+        updatedLocation = g.db['cursor'].fetchone()
+        return jsonify(updatedLocation)
 
-    return "one location"
-
-
+    
 ################################
 #   Categories
 ################################

@@ -43,6 +43,7 @@ const Login = (props) => {
                         value={fields.username} 
                         onChange={handleChange}
                         name="username"
+                        required
                         />
                 </FormControl>
                 <br></br>
@@ -53,6 +54,7 @@ const Login = (props) => {
                         value={fields.password} 
                         onChange={handleChange}
                         name="password"
+                        required
                         />
                 </FormControl>
                 {message ? <Alert severity="warning">{message}</Alert>:<></>}

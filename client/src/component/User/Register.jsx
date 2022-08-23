@@ -43,6 +43,7 @@ const Register = (props) => {
                     value={fields.username} 
                     onChange={handleChange}
                     name="username"
+                    required
                     />
             </FormControl>
             <br></br>
@@ -53,6 +54,7 @@ const Register = (props) => {
                     value={fields.password} 
                     onChange={handleChange}
                     name="password"
+                    required
                     />               
             </FormControl>
             <Container>
