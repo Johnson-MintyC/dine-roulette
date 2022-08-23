@@ -39,7 +39,8 @@ def disconnect_from_db(response):
 def home():
     location = request.json['location']
     criteria = request.json['criteria']
-
+    queryRadius = str(int(request.json['nearby-range'])*1000)
+    
     user = session.get('user', None)
     query = """
         SELECT locations.long, locations.lati 
@@ -50,8 +51,14 @@ def home():
     cur = g.db['cursor']
     cur.execute(query, (location, user['id']))
     location = g.db['cursor'].fetchone()
+    print(location['long'], location['lati'])
+    url = f"https://api.geoapify.com/v2/places?categories={criteria}&filter=circle:{location['long']},{location['lati']},{queryRadius}&bias=proximity:{location['long']},{location['lati']}&limit=50&apiKey={os.environ.get('GEO_KEY')}"
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+    resp = requests.get(url, headers=headers)
+    data = resp.json()
 
-    return jsonify(location)
+    return jsonify(data)
 
 ################################
 #   Locations

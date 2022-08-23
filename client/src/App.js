@@ -44,8 +44,6 @@ function App() {
     const res = await fetch("/locations");
     const data = await res.json();
     setAllLocations(data);
-    console.log(data, "data");
-    console.log(allLocations, "setter");
   };
   useEffect(() => locationFetch, []);
 

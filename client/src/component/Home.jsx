@@ -27,32 +27,32 @@ const Home = (props) => {
         })
       }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(fields)
+        const res = await fetch("/api", {
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(fields)
+        })
+        const queryData = await res.json()
+        console.log(queryData)
+
     }
     //////////////////////////////////////////
     //  Location
-    /////////////////////////////////////////
+    //////////////////////////////////////////
     const { allLocations } = props
     const menuifyLocations = allLocations.map((locale)=> {
         return (<MenuItem value={locale.id}>{locale.title}</MenuItem>)
     })
+    
+    ////////////////////////////////////////////
+    //  On Spin
+    ////////////////////////////////////////////
+    const [queryReturn, setQueryReturn] = useState(null)
 
 
-    //Hardcoded Test funcs and values
-    const makeHardQueryCall = async () => {
-        const randGeocode = "144.9617719,-37.817466"
-        const randRadius = "5000"
-        const randRestaurant = "catering.restaurant"
-        const randApiKey = process.env.REACT_APP_GEO_API
-        const randUrl = `https://api.geoapify.com/v2/places?categories=${randRestaurant}&filter=circle:${randGeocode},${randRadius}&bias=proximity:${randGeocode}&limit=50&apiKey=${randApiKey}`
-        const reponse = await fetch(randUrl)
-        const data = await reponse.json()
-        console.log(data)
-
-    }
-
+    
     return (
         <div>
             <h1>PICK ME A PLACE PLZ</h1>
