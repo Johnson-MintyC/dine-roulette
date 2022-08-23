@@ -34,10 +34,24 @@ def disconnect_from_db(response):
     return response
 
 ################################
-#Index Route
-@app.route("/api")
+#Index Route, Generate List to randomize
+@app.route("/api", methods=['POST'])
 def home():
-    return "Return locations and Cat"
+    location = request.json['location']
+    criteria = request.json['criteria']
+
+    user = session.get('user', None)
+    query = """
+        SELECT locations.long, locations.lati 
+        FROM locations
+        WHERE locations.id = %s
+        AND locations.user_id = %s
+    """
+    cur = g.db['cursor']
+    cur.execute(query, (location, user['id']))
+    location = g.db['cursor'].fetchone()
+
+    return jsonify(location)
 
 ################################
 #   Locations

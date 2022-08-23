@@ -62,7 +62,7 @@ const EditLocation = (props) => {
         setAllLocations([...allLocations.slice(0, indexPosi), data, ...allLocations.slice(indexPosi+1)])
         navigate("/location")
     } 
-
+    
     const handleDelete = async () => {
         const res = await fetch(`/locations/${locationID}`, {
           method: "DELETE",

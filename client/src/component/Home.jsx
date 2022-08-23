@@ -9,7 +9,7 @@ import { Input,
     Container,
     Select } from '@mui/material'
 
-const Home = () => {
+const Home = (props) => {
     /////////////////////////////////////////
     //  Fields Related
     ////////////////////////////////////////
@@ -29,8 +29,16 @@ const Home = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        makeHardQueryCall()
+        console.log(fields)
     }
+    //////////////////////////////////////////
+    //  Location
+    /////////////////////////////////////////
+    const { allLocations } = props
+    const menuifyLocations = allLocations.map((locale)=> {
+        return (<MenuItem value={locale.id}>{locale.title}</MenuItem>)
+    })
+
 
     //Hardcoded Test funcs and values
     const makeHardQueryCall = async () => {
@@ -54,9 +62,7 @@ const Home = () => {
                     <FormControl>
                     <FormLabel htmlFor="location">Location: </FormLabel>
                     <Select name="location" id="location-selector" onChange={handleChange}>
-                        <MenuItem value="test">test</MenuItem>
-                        <MenuItem value="home">home</MenuItem>
-                        <MenuItem value="work">work</MenuItem>
+                        {menuifyLocations}
                     </Select>
                     </FormControl>
                 </FormGroup>
@@ -65,7 +71,9 @@ const Home = () => {
                 <FormControl>
                     <FormLabel htmlFor="criteria">Criteria: </FormLabel>
                     <Select name="criteria" id="criteria-selector" onChange={handleChange}>
-                        <MenuItem value="search">search</MenuItem>
+                        <MenuItem value="catering.restaurant">Restaurants</MenuItem>
+                        <MenuItem value="catering.cafe">Coffee</MenuItem>
+                        <MenuItem value="catering.bar,catering.pub">Bars and Pubs</MenuItem>
                     </Select>
                     </FormControl>
                 </FormGroup>

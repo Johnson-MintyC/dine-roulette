@@ -60,7 +60,15 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home />} />
+          {/* Home */}
+          {allLocations ? (
+            <Route
+              path="/home"
+              element={<Home allLocations={allLocations} />}
+            />
+          ) : (
+            <></>
+          )}
           <Route
             path="/login"
             element={
