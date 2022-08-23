@@ -52,9 +52,6 @@ def new_location():
     title = request.json['title']
     address = request.json['address']
 
-    print(title)
-    print(type(address))
-
     #parse the formatted address to querable form
     addrnocomma = address.replace(", ", "%2C%20")
     queryAddr = addrnocomma.replace(" ", "%20")
@@ -64,9 +61,6 @@ def new_location():
     data = resp.json()
     long = data['features'][0]['properties']['lon']
     lati = data['features'][0]['properties']['lat']
-
-    print(long)
-    print(lati)
 
     #Grab the current user from sessions
     user = session.get('user', None)

@@ -52,15 +52,15 @@ const NewLocation = () => {
           console.log(fields)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        // const res = await fetch("/locations/new", {
-        //     method: 'POST', 
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify(fields)
-        // })
-        // const data = await res.json()
-        console.log(fields)
+        const res = await fetch("/locations/new", {
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(fields)
+        })
+        const data = await res.json()
+        console.log(data)
     }   
 
     //Change Autocomplete fields, default on city
