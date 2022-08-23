@@ -49,7 +49,6 @@ const NewLocation = () => {
             ...fields,
             [event.target.name]: event.target.value,
           })
-          console.log(fields)
     }
 
     const handleSubmit = async (event) => {

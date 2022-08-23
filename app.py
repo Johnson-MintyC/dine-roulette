@@ -44,7 +44,16 @@ def home():
 #Locations Index
 @app.route("/locations")
 def locations():
-    return "all locations"
+    user = session.get('user', None)
+    query = """
+        SELECT locations.title, locations.address FROM locations
+        JOIN users ON locations.user_id = users.id
+        WHERE locations.user_id = %s
+    """
+    cur = g.db['cursor']
+    cur.execute(query, (user['id'],))
+    allLocations = g.db['cursor'].fetchall()
+    return jsonify(allLocations)
 
 
 @app.route("/locations/new", methods=['POST'])
