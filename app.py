@@ -131,6 +131,23 @@ def updlocation(location_id):
         updatedLocation = g.db['cursor'].fetchone()
         return jsonify(updatedLocation)
 
+#Delete Location
+@app.route("/locations/<location_id>", methods=['DELETE'])
+def delete_location(location_id):
+    user = session.get('user', None)
+    query = """
+        DELETE FROM locations
+        WHERE id = %s
+        AND locations.user_id = %s
+        RETURNING *
+        """
+    cur = g.db['cursor']
+    cur.execute(query, (location_id, user['id']))
+    g.db['connection'].commit()
+    deleted_location = cur.fetchone()
+    return jsonify(deleted_location)
+    
+
     
 ################################
 #   Categories

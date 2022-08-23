@@ -5,7 +5,10 @@ import { Input,
     FormGroup, 
     FormControl, 
     FormLabel,
-    Container } from '@mui/material'
+    Container, 
+    IconButton} from '@mui/material'
+
+import trashIcon from '../../assets/remove-48.png';
 
 import Autocomplete from "react-google-autocomplete";
 
@@ -65,6 +68,7 @@ const EditLocation = (props) => {
     return (<div>
         <h1>Edit {showLocation.title}</h1>
         <Container>
+        <IconButton ><img src={trashIcon}/></IconButton>
         <form method="post" onSubmit={handleSubmit}>
             <FormControl>
                 <FormGroup sx={{ marginBottom: 3}}>
