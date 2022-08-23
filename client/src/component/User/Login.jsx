@@ -8,6 +8,7 @@ const Login = (props) => {
         password: ""}
     const [fields, setFields] = useState(initial)
     const [message, setMessage] = useState(null)
+    const navigate = useNavigate()
     const handleChange = (event) => {
         setFields({
           ...fields,
@@ -26,6 +27,7 @@ const Login = (props) => {
         if (data.success) {
             props.setAuthorised(true)
             props.setCurrentUser(data.user)
+            navigate('/home')
         }
         else {
             setMessage(data.msg)

@@ -13,10 +13,11 @@ import trashIcon from '../../assets/remove-48.png';
 import Autocomplete from "react-google-autocomplete";
 
 const EditLocation = (props) => {
+    const {allLocations, setAllLocations} = props
     const [address, setAddress] = useState(null);
     const GoogleApiKey = process.env.REACT_APP_GOOGLE
     const {locationID} = useParams()
-    const showLocation = props.allLocations.find((deets) => {
+    const showLocation = allLocations.find((deets) => {
         return parseInt(locationID) === deets.id
     })
     const initial = { 
@@ -26,6 +27,7 @@ const EditLocation = (props) => {
         lati: showLocation.lati
      }
     const [fields, setFields] = useState(initial)
+    const navigate = useNavigate()
 
     useEffect(() => {
         setFields({ ...fields, address: address });
@@ -40,27 +42,25 @@ const EditLocation = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        const indexPosi = props.allLocations.indexOf(showLocation)
+        let updatedForm = {...fields}
         if (fields.address === initial.address || fields.address === null) {
-            const noAddrfieldChange = {...fields, address: initial.address, noCall:true}
-            console.log(noAddrfieldChange)
-            const res = await fetch(`/locations/${locationID}`, {
-                    method: 'PUT', 
-                    headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify(noAddrfieldChange)
-                })
-            const data = await res.json();
-            console.log(data)
+            updatedForm = {...fields, address: initial.address, noCall:true}
         }
         else {
-            const updateEverthing = {...fields, noCall:false}
-            const res = await fetch(`/locations/${locationID}`, {
+            updatedForm = {...fields, noCall:false}
+        }
+        
+        const res = await fetch(`/locations/${locationID}`, {
                 method: 'PUT', 
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(updateEverthing)
+                body: JSON.stringify(updatedForm)
             })
-            const data = await res.json()
-            console.log(data)
-        }
+        const data = await res.json();
+        console.log(data)
+            
+        setAllLocations([...allLocations.slice(0, indexPosi), data, ...allLocations.slice(indexPosi+1)])
+        navigate("/location")
     } 
 
     const types = ["street_address"]
