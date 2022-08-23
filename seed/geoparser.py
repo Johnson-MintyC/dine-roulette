@@ -42,3 +42,14 @@ a5geo = {
     "lon": 174.7696682,
     "lat": -36.8528623
 }
+
+#POST dummy structures
+user1 = {
+            "username": "peanuts",
+            "password": "password123"
+        }
+
+testaddr = {
+            "title": "peanuts",
+            "address": "100 Bourke St, Melbourne VIC 3000, Australia"
+            }

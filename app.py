@@ -51,14 +51,38 @@ def locations():
 def new_location():
     title = request.json['title']
     address = request.json['address']
+
+    print(title)
+    print(type(address))
+
+    #parse the formatted address to querable form
     addrnocomma = address.replace(", ", "%2C%20")
     queryAddr = addrnocomma.replace(" ", "%20")
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     resp = requests.get(f"https://api.geoapify.com/v1/geocode/search?text={queryAddr}&apiKey={os.environ.get('GEO_KEY')}", headers=headers)
     data = resp.json()
-    print(data['features'][0]['properties']['lon'])
-    return ""
+    long = data['features'][0]['properties']['lon']
+    lati = data['features'][0]['properties']['lat']
+
+    print(long)
+    print(lati)
+
+    #Grab the current user from sessions
+    user = session.get('user', None)
+
+    query = """
+        INSERT INTO locations
+        (title, address, long, lati, user_id)
+        VALUES (%s, %s, %s, %s, %s)
+        RETURNING *
+    """
+    g.db['cursor'].execute(query, (title, address, long, lati, user['id']))
+    g.db['connection'].commit()
+
+    location = g.db['cursor'].fetchone()
+
+    return jsonify(location)
 
 #Locations One
 @app.route("/locations/<location_id>")
@@ -155,6 +179,12 @@ def is_authenticated():
 
     else:
         return jsonify(success=False, msg='User is not logged in')
+
+#login check - purely for testing
+@app.route('/am-i-logged-in')
+def test():
+    print(session['user'])
+    return jsonify(session['user'])
 
 
 
