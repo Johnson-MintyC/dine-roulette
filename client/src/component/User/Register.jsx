@@ -1,6 +1,14 @@
 import { useState } from "react"
 import { useNavigate} from "react-router-dom"
-import { Input, InputLabel, Button, FormControl, Alert, Container } from '@mui/material'
+import { 
+    Input, 
+    InputLabel, 
+    Button, 
+    Box, 
+    FormControl, 
+    Alert, 
+    Container 
+     } from '@mui/material'
 
 const Register = (props) => {
     const initial = {
@@ -24,7 +32,7 @@ const Register = (props) => {
         })
         const data = await res.json()
         if (data.success) {
-            props.setAuthorised(true)
+            props.handleAuth(true)
             props.setCurrentUser(data.user)
             navigate('/home')
         }
@@ -33,7 +41,7 @@ const Register = (props) => {
         }
     }
     return (
-    <div>
+    <Box align = "center">
         <form onSubmit={handleSubmit}>
         <h3>Register</h3>
             <FormControl sx={{ marginBottom: 3}}>
@@ -64,7 +72,7 @@ const Register = (props) => {
                 <Button type="submit" variant="contained">Register</Button>
             </div>
         </form>
-    </div>)
+    </Box>)
 }
 
 export default Register

@@ -64,7 +64,7 @@ def home():
 
     ##Google Nearby
     queryList = []
-    url1 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type=restaurant&key={os.environ.get('GOOGLE_KEY')}"
+    url1 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type={criteria}&key={os.environ.get('GOOGLE_KEY')}"
     payload={}
     headers = {}
 
@@ -72,11 +72,11 @@ def home():
     data1 = response1.json()
     queryList.extend(data1['results'])
     pagetoken1 = data1['next_page_token']
-    url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type=restaurant&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
+    url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type={criteria}&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
     response2 = requests.request("GET", url2, headers=headers, data=payload)
     data2 = response2.json()
-    queryList.extend(data1['results'])
-
+    queryList.extend(data2['results'])
+ 
     return queryList
 
 ################################

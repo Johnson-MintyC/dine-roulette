@@ -4,7 +4,9 @@ import { useState, useEffect } from "react"
 import { Card, CardActionArea, Typography } from "@mui/material"
 
 const Location = (props) => {
-    console.log(props.allLocations)
+    useEffect(()=>{
+        
+    }, [props.allLocations])
 
     const AllTheLocations = props.allLocations.map((locale) => {
             return (<Card sx={{ maxWidth: 345 }}>

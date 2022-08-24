@@ -1,6 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Input, InputLabel, Button, FormControl, Alert } from '@mui/material'
+import { 
+    Input, 
+    InputLabel, 
+    Button,
+    Box, 
+    FormControl, 
+    Alert } from '@mui/material'
 
 const Login = (props) => {
     const initial = {
@@ -25,7 +31,7 @@ const Login = (props) => {
         })
         const data = await res.json()
         if (data.success) {
-            props.setAuthorised(true)
+            props.handleAuth(true)
             props.setCurrentUser(data.user)
             navigate('/home')
         }
@@ -35,7 +41,7 @@ const Login = (props) => {
     }
 
     return (
-        <div className="centerTheForm">
+        <Box align = "center" sx={{justifyContent: "center"}}>
             <form onSubmit={handleSubmit}>
             <h3>Sign In</h3>
                 <FormControl sx={{ marginBottom: 3}}>
@@ -67,7 +73,7 @@ const Login = (props) => {
                 No account? <Link to="/register">Signup for free!</Link>
                 </p>
             </form>
-        </div>
+        </Box>
     )
 }
 

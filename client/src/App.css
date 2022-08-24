@@ -1,3 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
 .centerTheForm {
   justify-content: center;
   align-items: center;

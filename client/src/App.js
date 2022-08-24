@@ -14,6 +14,8 @@ import Location from "./component/Locations/Locations";
 import NewLocation from "./component/Locations/NewLocation";
 import EditLocation from "./component/Locations/EditLocation";
 
+import ProtectedRoute from "./component/ProtectedRoute";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -25,15 +27,24 @@ function App() {
   const [authorised, setAuthorised] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
+  /////////////////////////////////////////
+  //  Auth Check
+  ////////////////////////////////////////
+
+  const loginCheck = async () => {
+    const res = await fetch("/is-authenticated");
+    const data = await res.json();
+    setAuthorised(data.success);
+    setCurrentUser(data.user);
+  };
+
   useEffect(() => {
-    const loginCheck = async () => {
-      const res = await fetch("/is-authenticated");
-      const data = await res.json();
-      setAuthorised(data.success);
-      setCurrentUser(data.user);
-    };
     loginCheck();
   }, []);
+
+  const handleAuth = (authed) => {
+    setAuthorised(authed);
+  };
 
   ////////////////////////////////////////
   //  For locations
@@ -43,9 +54,15 @@ function App() {
   const locationFetch = async () => {
     const res = await fetch("/locations");
     const data = await res.json();
+    console.log(data);
     setAllLocations(data);
   };
-  useEffect(() => locationFetch, []);
+
+  useEffect(() => {
+    if (authorised) {
+      locationFetch();
+    }
+  }, [authorised]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,39 +76,40 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Home */}
-          {allLocations ? (
+          {allLocations && (
             <Route
               path="/home"
-              element={<Home allLocations={allLocations} />}
+              element={
+                <ProtectedRoute authorised={authorised}>
+                  <Home allLocations={allLocations} />
+                </ProtectedRoute>
+              }
             />
-          ) : (
-            <></>
           )}
           <Route
             path="/login"
             element={
-              <Login
-                setAuthorised={setAuthorised}
-                setCurrentUser={setCurrentUser}
-              />
+              <Login setCurrentUser={setCurrentUser} handleAuth={handleAuth} />
             }
           />
           <Route
             path="/register"
             element={
               <Register
-                setAuthorised={setAuthorised}
                 setCurrentUser={setCurrentUser}
+                handleAuth={handleAuth}
               />
             }
           />
-          {allLocations ? (
+          {allLocations && (
             <Route
               path="/location"
-              element={<Location allLocations={allLocations} />}
+              element={
+                <ProtectedRoute authorised={authorised}>
+                  <Location allLocations={allLocations} />
+                </ProtectedRoute>
+              }
             />
-          ) : (
-            <></>
           )}
           {/* New Location Route */}
           <Route

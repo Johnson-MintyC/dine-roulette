@@ -23,7 +23,9 @@ const Home = (props) => {
     /////////////////////////////////////////
     //  Fields Related
     ////////////////////////////////////////
-    const [fields, setFields] = useState()
+    const [fields, setFields] = useState(null)
+
+    console.log("anything")
 
     const handleChange = (event) => {
         setFields({
@@ -71,13 +73,13 @@ const Home = (props) => {
 
     
     return (
-        <div>
+        <Box align="center">
             <form action="/home" method="post" onSubmit={handleSubmit}>
-            <Grid container alignItems="center" justify="center" direction="column" maxWidth="md">
-                <Grid item xs={12} sm={12}>
+            <Grid container maxWidth="md">
+                <Grid item xs={12} sm={12} sx={{width: "100%"}}>
                 <h1>PICK ME A PLACE PLZ</h1>
 
-                <FormControl>
+                <FormControl sx={{width: "100%"}}>
                     <FormGroup sx={{ marginBottom: 3}}>
                         <FormControl>
                         <FormLabel htmlFor="location">Location: </FormLabel>
@@ -107,8 +109,9 @@ const Home = (props) => {
                         </Box>
                         </FormControl>
                     </FormGroup>
-
-                    <Button type="submit" variant="contained" onClick={(e)=>setOpen(true)}>SPIN</Button>
+                    <Box align="center">
+                        <Button type="submit" variant="contained" onClick={(e)=>setOpen(true)}>SPIN</Button>
+                    </Box>
                     </FormControl>
                 
                 </Grid>
@@ -129,7 +132,7 @@ const Home = (props) => {
                         }>Spin Again</Button>}
                     </Box>
                 </PopupModal>
-        </div>
+        </Box>
     )
 }
 
