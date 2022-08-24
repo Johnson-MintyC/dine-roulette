@@ -56,7 +56,7 @@ const Home = (props) => {
         const queryData = await res.json()
         console.log(queryData)
         setQueryReturn(queryData)
-        setRestPick(randomization(queryData))
+        randomization(queryData)
     }
 
     ///////////////////////////////////////////
@@ -66,7 +66,7 @@ const Home = (props) => {
     
     const randomization = (arr) => {
         const result = arr[Math.floor(Math.random()*arr.length)]
-        return result
+        setRestPick(result)
     }
 
     
@@ -91,9 +91,10 @@ const Home = (props) => {
                     <FormControl>
                         <FormLabel htmlFor="criteria">Criteria: </FormLabel>
                         <Select name="criteria" id="criteria-selector" onChange={handleChange}>
-                            <MenuItem value="catering.restaurant">Restaurants</MenuItem>
-                            <MenuItem value="catering.cafe">Coffee</MenuItem>
-                            <MenuItem value="catering.bar,catering.pub">Bars and Pubs</MenuItem>
+                            <MenuItem value="restaurant">Restaurants</MenuItem>
+                            <MenuItem value="cafe">Coffee</MenuItem>
+                            <MenuItem value="bar">Bars</MenuItem>
+                            <MenuItem value="pub">Pubs</MenuItem>
                         </Select>
                         </FormControl>
                     </FormGroup>
@@ -121,7 +122,11 @@ const Home = (props) => {
                 >
                     <Box width={400} hegith={200} bgcolor="white" padding={3}>
                         {restPick && <Typography variant="h6">{restPick.name}</Typography>}
+                        {restPick && <img src={restPick.icon}/>}
                         {restPick && <Typography>Located at: <br></br>{restPick.vicinity}</Typography>}
+                        {restPick && <Button onClick={()=>
+                            randomization(queryReturn)
+                        }>Spin Again</Button>}
                     </Box>
                 </PopupModal>
         </div>

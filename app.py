@@ -19,6 +19,8 @@ import psycopg2
 
 import os
 
+import random
+
 #Instantiations, env variables
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -74,6 +76,7 @@ def home():
     response2 = requests.request("GET", url2, headers=headers, data=payload)
     data2 = response2.json()
     queryList.extend(data1['results'])
+
     return queryList
 
 ################################
