@@ -2,10 +2,12 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { Input,
     Button, 
+    Box,
     FormGroup, 
     FormControl, 
     FormLabel,
-    Container } from '@mui/material'
+    Container, 
+    Typography} from '@mui/material'
 
 import Autocomplete from "react-google-autocomplete";
 
@@ -72,8 +74,9 @@ const NewLocation = (props) => {
     //Change Autocomplete fields, default on city
     const types = ["street_address"]
 
-    return (<div>
-        <h1>New Location</h1>
+    return (
+    <Box align="center">
+        <Typography variant="h1">New Location</Typography>
         <Container>
         <form method="post" onSubmit={handleSubmit}>
             <FormControl>
@@ -105,7 +108,7 @@ const NewLocation = (props) => {
         </form>
         </Container>
         
-    </div>)
+    </Box>)
 }
 
 export default NewLocation

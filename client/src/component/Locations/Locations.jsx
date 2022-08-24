@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 
-import { Card, CardActionArea, Typography } from "@mui/material"
+import { Box, Card, CardActionArea, Typography } from "@mui/material"
 
 const Location = (props) => {
     useEffect(()=>{
-        
+
     }, [props.allLocations])
 
     const AllTheLocations = props.allLocations.map((locale) => {
@@ -19,11 +19,11 @@ const Location = (props) => {
     })
 
     return (
-    <div>
+    <Box align="center">
         <h1>Locations</h1>
         <Link to="/location/new"><h2>Add a Location</h2></Link>
         {AllTheLocations}
-    </div>
+    </Box>
     )
 }
 

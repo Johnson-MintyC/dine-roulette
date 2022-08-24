@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { createTheme, colors, ThemeProvider } from "@mui/material";
+import { createTheme, colors, ThemeProvider, Box } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import "./App.css";
 
 import Landing from "./component/Landing";
@@ -16,16 +17,49 @@ import EditLocation from "./component/Locations/EditLocation";
 
 import ProtectedRoute from "./component/ProtectedRoute";
 
-const theme = createTheme({
+const purpTheme = createTheme({
   palette: {
     primary: {
       main: colors.deepPurple[300],
     },
   },
 });
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+const allTheThemes = {
+  purpTheme: purpTheme,
+  darkTheme: darkTheme,
+};
+
 function App() {
   const [authorised, setAuthorised] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  /////////////////////////////////////////
+  //  Colors Mode
+  /////////////////////////////////////////
+  const [theTheme, setTheTheme] = useState(purpTheme);
+
+  const toggleColors = () => {
+    if (theTheme === purpTheme) {
+      setTheTheme(darkTheme);
+      localStorage.setItem("colorsetting", "darkTheme");
+    } else {
+      setTheTheme(purpTheme);
+      localStorage.setItem("colorsetting", "purpTheme");
+    }
+  };
+
+  const savedColor = () => {
+    let colorcheck = localStorage.getItem("colorsetting");
+    if (colorcheck) {
+      setTheTheme(allTheThemes[colorcheck]);
+    }
+  };
 
   /////////////////////////////////////////
   //  Auth Check
@@ -40,6 +74,7 @@ function App() {
 
   useEffect(() => {
     loginCheck();
+    savedColor();
   }, []);
 
   const handleAuth = (authed) => {
@@ -65,14 +100,18 @@ function App() {
   }, [authorised]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theTheme}>
+      <NavBar
+        sx={{ bgcolor: "primary.main" }}
+        authorised={authorised}
+        setAuthorised={setAuthorised}
+        setCurrentUser={setCurrentUser}
+      />
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <button onClick={toggleColors}>Mode Toggle</button>
+      </Box>
+      <CssBaseline />
       <div className="App">
-        <NavBar
-          sx={{ bgcolor: "primary.main" }}
-          authorised={authorised}
-          setAuthorised={setAuthorised}
-          setCurrentUser={setCurrentUser}
-        />
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Home */}
@@ -115,20 +154,24 @@ function App() {
           <Route
             path="/location/new"
             element={
-              <NewLocation
-                allLocations={allLocations}
-                setAllLocations={setAllLocations}
-              />
+              <ProtectedRoute authorised={authorised}>
+                <NewLocation
+                  allLocations={allLocations}
+                  setAllLocations={setAllLocations}
+                />
+              </ProtectedRoute>
             }
           />
           {allLocations ? (
             <Route
               path="/location/:locationID"
               element={
-                <EditLocation
-                  allLocations={allLocations}
-                  setAllLocations={setAllLocations}
-                />
+                <ProtectedRoute authorised={authorised}>
+                  <EditLocation
+                    allLocations={allLocations}
+                    setAllLocations={setAllLocations}
+                  />
+                </ProtectedRoute>
               }
             />
           ) : (

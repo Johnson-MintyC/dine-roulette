@@ -25,8 +25,6 @@ const Home = (props) => {
     ////////////////////////////////////////
     const [fields, setFields] = useState(null)
 
-    console.log("anything")
-
     const handleChange = (event) => {
         setFields({
           ...fields,
@@ -77,7 +75,7 @@ const Home = (props) => {
             <form action="/home" method="post" onSubmit={handleSubmit}>
             <Grid container maxWidth="md">
                 <Grid item xs={12} sm={12} sx={{width: "100%"}}>
-                <h1>PICK ME A PLACE PLZ</h1>
+                <Typography variant="h3" sx={{ fontFamily: "Carter One"}}>PICK ME A PLACE PLZ</Typography>
 
                 <FormControl sx={{width: "100%"}}>
                     <FormGroup sx={{ marginBottom: 3}}>
@@ -102,9 +100,9 @@ const Home = (props) => {
                     </FormGroup>
 
                     <FormGroup sx={{ marginBottom: 3}}>
-                    <FormControl>
+                        <FormControl >
                         <FormLabel htmlFor="nearby-range">Within: </FormLabel>
-                        <Box sx={{ display: "flex" }}>
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Input name="nearby-range" type="number" min="1" max="30" onChange={handleChange}/><p> km</p>
                         </Box>
                         </FormControl>
@@ -123,10 +121,10 @@ const Home = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 >
-                    <Box width={400} hegith={200} bgcolor="white" padding={3}>
-                        {restPick && <Typography variant="h6">{restPick.name}</Typography>}
+                    <Box width={400} height={300} bgcolor="white" padding={3}>
+                        {restPick && <Typography variant="h6" color="black">{restPick.name}</Typography>}
                         {restPick && <img src={restPick.icon}/>}
-                        {restPick && <Typography>Located at: <br></br>{restPick.vicinity}</Typography>}
+                        {restPick && <Typography color="black">Located at: <br></br>{restPick.vicinity}</Typography>}
                         {restPick && <Button onClick={()=>
                             randomization(queryReturn)
                         }>Spin Again</Button>}
