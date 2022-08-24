@@ -35,7 +35,7 @@ const NavBar = (props) => {
                         <img className="logo-img" src={rouletteicon} />
                     </Link>
                 </IconButton>
-                <Typography variant="h4" component='div' sx={{ flexGrow: 1 }}>
+                <Typography variant="h4" component='div' sx={{ flexGrow: 1, display:{xs:"none", sm:"block"} }}>
                     <Link to="/home">Dine Roulette</Link>
                 </Typography>
                 {props.authorised ? 

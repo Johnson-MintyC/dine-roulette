@@ -51,14 +51,30 @@ def home():
     cur = g.db['cursor']
     cur.execute(query, (location, user['id']))
     location = g.db['cursor'].fetchone()
-    print(location['long'], location['lati'])
-    url = f"https://api.geoapify.com/v2/places?categories={criteria}&filter=circle:{location['long']},{location['lati']},{queryRadius}&bias=proximity:{location['long']},{location['lati']}&limit=50&apiKey={os.environ.get('GEO_KEY')}"
-    headers = CaseInsensitiveDict()
-    headers["Accept"] = "application/json"
-    resp = requests.get(url, headers=headers)
-    data = resp.json()
+    # print(location['long'], location['lati'])
 
-    return jsonify(data)
+    ##GEO places
+    # url = f"https://api.geoapify.com/v2/places?categories={criteria}&filter=circle:{location['long']},{location['lati']},{queryRadius}&bias=proximity:{location['long']},{location['lati']}&limit=50&apiKey={os.environ.get('GEO_KEY')}"
+    # headers = CaseInsensitiveDict()
+    # headers["Accept"] = "application/json"
+    # resp = requests.get(url, headers=headers)
+    # data = resp.json()
+
+    ##Google Nearby
+    queryList = []
+    url1 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type=restaurant&key={os.environ.get('GOOGLE_KEY')}"
+    payload={}
+    headers = {}
+
+    response1 = requests.request("GET", url1, headers=headers, data=payload)
+    data1 = response1.json()
+    queryList.extend(data1['results'])
+    pagetoken1 = data1['next_page_token']
+    url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type=restaurant&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
+    response2 = requests.request("GET", url2, headers=headers, data=payload)
+    data2 = response2.json()
+    queryList.extend(data1['results'])
+    return queryList
 
 ################################
 #   Locations
