@@ -18,7 +18,7 @@ const Categories = () => {
       };
     return (
         <Box>
-            <h1>Caat load holder</h1>
+            <h1>Categories </h1>
             <form onSubmit={handleSubmit}>
             <h3>Select to add to your criteria search</h3>
         

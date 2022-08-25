@@ -22,6 +22,20 @@ password: 123123
 
 ## Planning and Approach
 
+Planning and Tech research was what was
+
 ### Wireframe
 
+Initial concept and and how the app could flow and interactive was done on Figma
+</br>
+[Share](https://www.figma.com/file/bUONj8siujR7CFDPURElbo/Dine-Roulette?node-id=0%3A1)
+</br>
+
+### Wireframe Screenshots
+
+<img src="./screenshots/figma1.png" width="600">
+<img src="./screenshots/figma2.png" width="600">
+
 ### ERD and Data Structure planning
+
+<img src="./screenshots/DineRouletteERD.png" width="800">
