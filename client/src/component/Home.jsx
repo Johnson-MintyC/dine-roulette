@@ -67,8 +67,12 @@ const Home = (props) => {
     
     const randomization = (arr) => {
         const result = arr[Math.floor(Math.random()*arr.length)]
+        if (!result.opening_hours) {
+            result.opening_hours = {open_now: false}
+        }
+        console.log(result.opening_hours)
         setRestPick(result)
-        props.setMapCoords(result.geometry.location)
+        props.setMapCoords(result)
     }
 
     const navigate = useNavigate()
@@ -125,15 +129,18 @@ const Home = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 >
-                    <Box width={450} height={370} bgcolor="white" padding={3}>
+                    <Box width={450} height={370} bgcolor="white" padding={3} align="center">
                         <Typography variant="h6" color="black">{restPick.name}</Typography>
                         <img className="queryImage" src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photo_reference=${restPick.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE}`}/>
-                        <Typography color="black">Located at: <br></br>{restPick.vicinity}</Typography>
+                        {restPick.opening_hours.open_now ? (<Typography color="black">We're currently: <br></br>Open</Typography>): (<Typography color="black">We're currently: <br></br>Closed</Typography>)}
+                        <Typography variant="p" color="black">Rated: {restPick.rating}</Typography>
+                        <Box sx={{display: "flex", justifyContent: "space-around"}}>
                         <Button onClick={()=>
                             randomization(queryReturn)
                         }>Spin Again</Button>
                         <Button onClick={()=>
                         navigate("/map")}>Map</Button>
+                        </Box>
                     </Box>
                 </PopupModal>}
         </Box>
