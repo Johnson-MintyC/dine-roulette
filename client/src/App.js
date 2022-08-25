@@ -21,6 +21,8 @@ import Location from "./component/Locations/Locations";
 import NewLocation from "./component/Locations/NewLocation";
 import EditLocation from "./component/Locations/EditLocation";
 
+import Map from "./component/Map";
+
 import ProtectedRoute from "./component/ProtectedRoute";
 import ColorToggle from "./component/ColorToggle";
 
@@ -95,6 +97,11 @@ function App() {
     }
   }, [authorised]);
 
+  /////////////////////////////////////////
+  //  Map Data
+  /////////////////////////////////////////
+  const [mapCoords, setMapCoords] = useState({ lat: "", lng: "" });
+
   return (
     <ThemeProvider theme={theTheme}>
       <NavBar
@@ -121,7 +128,11 @@ function App() {
               path="/home"
               element={
                 <ProtectedRoute authorised={authorised}>
-                  <Home allLocations={allLocations} />
+                  <Home
+                    allLocations={allLocations}
+                    setMapCoords={setMapCoords}
+                    mapCoords={mapCoords}
+                  />
                 </ProtectedRoute>
               }
             />
@@ -165,7 +176,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {allLocations ? (
+          {allLocations && (
             <Route
               path="/location/:locationID"
               element={
@@ -179,8 +190,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          ) : (
-            <></>
+          )}
+          {mapCoords && (
+            <Route path="/map" element={<Map mapCoords={mapCoords} />} />
           )}
         </Routes>
       </div>

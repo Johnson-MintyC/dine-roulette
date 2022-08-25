@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { Input, 
     Box, 
     Button, 
@@ -54,7 +55,7 @@ const Home = (props) => {
             body: JSON.stringify(fields)
         })
         const queryData = await res.json()
-        console.log(queryData)
+        console.log(queryData.length)
         setQueryReturn(queryData)
         randomization(queryData)
     }
@@ -67,9 +68,11 @@ const Home = (props) => {
     const randomization = (arr) => {
         const result = arr[Math.floor(Math.random()*arr.length)]
         setRestPick(result)
+        props.setMapCoords(result.geometry.location)
     }
 
-    
+    const navigate = useNavigate()
+
     return (
         <Box align="center">
             <form action="/home" method="post" onSubmit={handleSubmit}>
@@ -116,21 +119,23 @@ const Home = (props) => {
                 </Grid>
             </Grid>
             </form>
-            <PopupModal
+            {restPick && <PopupModal
                 open={open}
                 onClose={e=>setOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 >
                     <Box width={450} height={370} bgcolor="white" padding={3}>
-                        {restPick && <Typography variant="h6" color="black">{restPick.name}</Typography>}
-                        {restPick && <img className="queryImage" src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photo_reference=${restPick.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE}`}/>}
-                        {restPick && <Typography color="black">Located at: <br></br>{restPick.vicinity}</Typography>}
-                        {restPick && <Button onClick={()=>
+                        <Typography variant="h6" color="black">{restPick.name}</Typography>
+                        <img className="queryImage" src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photo_reference=${restPick.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE}`}/>
+                        <Typography color="black">Located at: <br></br>{restPick.vicinity}</Typography>
+                        <Button onClick={()=>
                             randomization(queryReturn)
-                        }>Spin Again</Button>}
+                        }>Spin Again</Button>
+                        <Button onClick={()=>
+                        navigate("/map")}>Map</Button>
                     </Box>
-                </PopupModal>
+                </PopupModal>}
         </Box>
     )
 }

@@ -10,3 +10,8 @@ html, body {
   justify-content: center;
   align-items: center;
 }
+
+.leaflet-container {
+  width: 100vw;
+  height: 100vh;
+}

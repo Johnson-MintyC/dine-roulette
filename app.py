@@ -19,7 +19,7 @@ import psycopg2
 
 import os
 
-import random
+import time
 
 #Instantiations, env variables
 app = Flask(__name__)
@@ -72,20 +72,15 @@ def home():
     data1 = response1.json()
     queryList.extend(data1['results'])
     pagetoken1 = data1['next_page_token']
+
+    #Pause to wait for result for page token
+    time.sleep(2)
+
     url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type={criteria}&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
     response2 = requests.request("GET", url2, headers=headers, data=payload)
     data2 = response2.json()
     queryList.extend(data2['results'])
 
-    randChoice = random.choice(queryList)
-    queryPhoto = randChoice['photos'][0]['photo_reference']
-
-    photourl = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={queryPhoto}&key={os.environ.get('GOOGLE_KEY')}"
-    photoresponse = requests.request("GET", photourl)
-    
-    print(photoresponse)
-
- 
     return queryList
 
 ################################
