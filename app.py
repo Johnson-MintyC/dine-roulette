@@ -197,6 +197,15 @@ def delete_location(location_id):
 #   Categories
 ################################
 #Categories Index
+@app.route('/categories')
+def categories():
+    query = """
+        SELECT * FROM categories
+    """
+    cur = g.db['cursor']
+    cur.execute(query)
+    allCategories = g.db['cursor'].fetchall()
+    return jsonify(allCategories)
 
 
 ################################
