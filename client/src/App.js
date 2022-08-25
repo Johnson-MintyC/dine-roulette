@@ -21,6 +21,8 @@ import Location from "./component/Locations/Locations";
 import NewLocation from "./component/Locations/NewLocation";
 import EditLocation from "./component/Locations/EditLocation";
 
+import Categories from "./component/Categories/Categories";
+
 import Map from "./component/Map";
 
 import ProtectedRoute from "./component/ProtectedRoute";
@@ -123,20 +125,22 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           {/* Home */}
-          {allLocations && (
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoute authorised={authorised}>
+
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute authorised={authorised}>
+                {allLocations && (
                   <Home
                     allLocations={allLocations}
                     setMapCoords={setMapCoords}
                     mapCoords={mapCoords}
                   />
-                </ProtectedRoute>
-              }
-            />
-          )}
+                )}
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/login"
             element={
@@ -152,16 +156,16 @@ function App() {
               />
             }
           />
-          {allLocations && (
-            <Route
-              path="/location"
-              element={
-                <ProtectedRoute authorised={authorised}>
-                  <Location allLocations={allLocations} />
-                </ProtectedRoute>
-              }
-            />
-          )}
+
+          <Route
+            path="/location"
+            element={
+              <ProtectedRoute authorised={authorised}>
+                {allLocations && <Location allLocations={allLocations} />}
+              </ProtectedRoute>
+            }
+          />
+
           {/* New Location Route */}
           <Route
             path="/location/new"
@@ -176,24 +180,25 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {allLocations && (
-            <Route
-              path="/location/:locationID"
-              element={
-                <ProtectedRoute authorised={authorised}>
+          <Route
+            path="/location/:locationID"
+            element={
+              <ProtectedRoute authorised={authorised}>
+                {allLocations && (
                   <EditLocation
                     allLocations={allLocations}
                     setAllLocations={setAllLocations}
                     theTheme={theTheme}
                     purpTheme={purpTheme}
                   />
-                </ProtectedRoute>
-              }
-            />
-          )}
+                )}
+              </ProtectedRoute>
+            }
+          />
           {mapCoords && (
             <Route path="/map" element={<Map mapCoords={mapCoords} />} />
           )}
+          <Route path="/categories" element={<Categories />} />
         </Routes>
       </div>
     </ThemeProvider>

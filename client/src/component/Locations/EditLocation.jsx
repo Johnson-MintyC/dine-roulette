@@ -97,9 +97,9 @@ const EditLocation = (props) => {
 
     return (
     <Box align="center" sx={{width: "100%"}}>
-        <Box size='size' sx={{display: "flex", justifyContent: "center"}}>
+        <Box size='size' sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <h1>Edit {showLocation.title}</h1>
-            <IconButton onClick={handleDelete}><img src={trashIcon}/></IconButton>
+            <IconButton onClick={handleDelete}><Box component="img" src={trashIcon} sx={{height: "3rem", width: "3rem"}}/></IconButton>
         </Box>
         <Container>
         <form method="post" onSubmit={handleSubmit}>

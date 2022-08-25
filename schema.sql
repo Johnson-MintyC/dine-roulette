@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS locations CASCADE;
+DROP TABLE IF EXISTS queries CASCADE
+DROP TABLE IF EXISTS categories CASCADE
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -14,4 +16,16 @@ CREATE TABLE locations (
     long TEXT NOT NULL,
     lati TEXT NOT NULL,
     user_id SERIAL REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE categories (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  text TEXT NOT NULL
+);
+
+CREATE TABLE queries (
+  id SERIAL PRIMARY KEY,
+  user_id SERIAL REFERENCES users (id),
+  cata_id SERIAL REFERENCES categories (id)
 )
