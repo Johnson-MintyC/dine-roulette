@@ -76,6 +76,15 @@ def home():
     response2 = requests.request("GET", url2, headers=headers, data=payload)
     data2 = response2.json()
     queryList.extend(data2['results'])
+
+    randChoice = random.choice(queryList)
+    queryPhoto = randChoice['photos'][0]['photo_reference']
+
+    photourl = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={queryPhoto}&key={os.environ.get('GOOGLE_KEY')}"
+    photoresponse = requests.request("GET", photourl)
+    
+    print(photoresponse)
+
  
     return queryList
 

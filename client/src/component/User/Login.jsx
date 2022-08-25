@@ -58,14 +58,14 @@ const Login = (props) => {
                 <FormControl sx={{ marginBottom: 3}}>
                     <InputLabel  htmlFor="password">Password: </InputLabel >
                     <Input 
-                        type="text" 
+                        type="password" 
                         value={fields.password} 
                         onChange={handleChange}
                         name="password"
                         required
                         />
                 </FormControl>
-                {message ? <Alert severity="warning">{message}</Alert>:<></>}
+                {message && <Alert sx={{width: "60%"}} mb={3} severity="warning">{message}</Alert>}
                 <div className="login">
                     <Button type="submit" variant="contained">Login</Button>
                 </div>

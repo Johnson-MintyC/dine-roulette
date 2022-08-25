@@ -27,6 +27,21 @@ const NewLocation = (props) => {
         setFields({ ...fields, address: address });
       }, [address])
 
+    //////////////////////////////////
+    //  Colors Toggle
+    //////////////////////////////////
+    const { theTheme, purpTheme } = props
+    const [ autoColor, setAutoColor] = useState({color: ""})
+
+    useEffect (()=>{
+        if (theTheme === purpTheme) {
+            setAutoColor({color: "black"})
+        }
+        else {
+            setAutoColor({color: "white"})
+        }
+    }, [theTheme])
+
     const navigate = useNavigate()
 
     const geofunc = () => {
@@ -76,7 +91,7 @@ const NewLocation = (props) => {
 
     return (
     <Box align="center">
-        <Typography variant="h1">New Location</Typography>
+        <Typography variant="h3">New Location</Typography>
         <Container>
         <form method="post" onSubmit={handleSubmit}>
             <FormControl>
@@ -93,6 +108,7 @@ const NewLocation = (props) => {
                         <Autocomplete
                         className="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
                         name="address"
+                        style={autoColor}
                         apiKey={GoogleApiKey}
                         options={{types}}
                         value={fields.address}

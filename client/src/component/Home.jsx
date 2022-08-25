@@ -75,19 +75,20 @@ const Home = (props) => {
             <form action="/home" method="post" onSubmit={handleSubmit}>
             <Grid container maxWidth="md">
                 <Grid item xs={12} sm={12} sx={{width: "100%"}}>
-                <Typography variant="h3" sx={{ fontFamily: "Carter One"}}>PICK ME A PLACE PLZ</Typography>
+                <Typography variant="h3" mb={3} sx={{ fontFamily: "Carter One"}}>PICK ME A PLACE PLZ</Typography>
 
-                <FormControl sx={{width: "100%"}}>
+                <FormControl sx={{width: "80%"}}>
                     <FormGroup sx={{ marginBottom: 3}}>
                         <FormControl>
                         <FormLabel htmlFor="location">Location: </FormLabel>
-                        <Select name="location" id="location-selector" onChange={handleChange}>
+                        <Select name="location" id="location-selector" onChange={handleChange} required>
+                            <MenuItem value="" disabled selected hidden>Select your option</MenuItem>
                             {menuifyLocations}
                         </Select>
                         </FormControl>
                     </FormGroup>
 
-                    <FormGroup sx={{ marginBottom: 3}}>
+                    <FormGroup sx={{ marginBottom: 4}}>
                     <FormControl>
                         <FormLabel htmlFor="criteria">Criteria: </FormLabel>
                         <Select name="criteria" id="criteria-selector" onChange={handleChange}>
@@ -99,7 +100,7 @@ const Home = (props) => {
                         </FormControl>
                     </FormGroup>
 
-                    <FormGroup sx={{ marginBottom: 3}}>
+                    <FormGroup sx={{ marginBottom: 4}}>
                         <FormControl >
                         <FormLabel htmlFor="nearby-range">Within: </FormLabel>
                         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -121,9 +122,9 @@ const Home = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 >
-                    <Box width={400} height={300} bgcolor="white" padding={3}>
+                    <Box width={450} height={370} bgcolor="white" padding={3}>
                         {restPick && <Typography variant="h6" color="black">{restPick.name}</Typography>}
-                        {restPick && <img src={restPick.icon}/>}
+                        {restPick && <img className="queryImage" src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photo_reference=${restPick.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE}`}/>}
                         {restPick && <Typography color="black">Located at: <br></br>{restPick.vicinity}</Typography>}
                         {restPick && <Button onClick={()=>
                             randomization(queryReturn)

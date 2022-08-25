@@ -1,7 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { createTheme, colors, ThemeProvider, Box } from "@mui/material";
+import {
+  createTheme,
+  colors,
+  ThemeProvider,
+  Box,
+  IconButton,
+} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import "./App.css";
 
@@ -16,6 +22,7 @@ import NewLocation from "./component/Locations/NewLocation";
 import EditLocation from "./component/Locations/EditLocation";
 
 import ProtectedRoute from "./component/ProtectedRoute";
+import ColorToggle from "./component/ColorToggle";
 
 const purpTheme = createTheme({
   palette: {
@@ -43,16 +50,6 @@ function App() {
   //  Colors Mode
   /////////////////////////////////////////
   const [theTheme, setTheTheme] = useState(purpTheme);
-
-  const toggleColors = () => {
-    if (theTheme === purpTheme) {
-      setTheTheme(darkTheme);
-      localStorage.setItem("colorsetting", "darkTheme");
-    } else {
-      setTheTheme(purpTheme);
-      localStorage.setItem("colorsetting", "purpTheme");
-    }
-  };
 
   const savedColor = () => {
     let colorcheck = localStorage.getItem("colorsetting");
@@ -89,7 +86,6 @@ function App() {
   const locationFetch = async () => {
     const res = await fetch("/locations");
     const data = await res.json();
-    console.log(data);
     setAllLocations(data);
   };
 
@@ -108,7 +104,12 @@ function App() {
         setCurrentUser={setCurrentUser}
       />
       <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <button onClick={toggleColors}>Mode Toggle</button>
+        <ColorToggle
+          theTheme={theTheme}
+          setTheTheme={setTheTheme}
+          purpTheme={purpTheme}
+          darkTheme={darkTheme}
+        />
       </Box>
       <CssBaseline />
       <div className="App">
@@ -158,6 +159,8 @@ function App() {
                 <NewLocation
                   allLocations={allLocations}
                   setAllLocations={setAllLocations}
+                  theTheme={theTheme}
+                  purpTheme={purpTheme}
                 />
               </ProtectedRoute>
             }
@@ -170,6 +173,8 @@ function App() {
                   <EditLocation
                     allLocations={allLocations}
                     setAllLocations={setAllLocations}
+                    theTheme={theTheme}
+                    purpTheme={purpTheme}
                   />
                 </ProtectedRoute>
               }

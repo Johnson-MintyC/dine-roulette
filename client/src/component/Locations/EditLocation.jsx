@@ -33,6 +33,22 @@ const EditLocation = (props) => {
         setFields({ ...fields, address: address });
       }, [address])
 
+    //////////////////////////////////
+    //  Colors Toggle
+    //////////////////////////////////
+    const { theTheme, purpTheme } = props
+    const [ autoColor, setAutoColor] = useState({color: ""})
+
+    useEffect (()=>{
+        if (theTheme === purpTheme) {
+            setAutoColor({color: "black"})
+        }
+        else {
+            setAutoColor({color: "white"})
+        }
+    }, [theTheme])
+    
+
     const handleChange = (event) => {
         setFields({
             ...fields,
@@ -79,27 +95,29 @@ const EditLocation = (props) => {
 
     const types = ["street_address"]
 
-    return (<div>
-        <Box size='size' sx={{display: "flex"}}>
+    return (
+    <Box align="center" sx={{width: "100%"}}>
+        <Box size='size' sx={{display: "flex", justifyContent: "center"}}>
             <h1>Edit {showLocation.title}</h1>
             <IconButton onClick={handleDelete}><img src={trashIcon}/></IconButton>
         </Box>
         <Container>
         <form method="post" onSubmit={handleSubmit}>
-            <FormControl>
-                <FormGroup sx={{ marginBottom: 3}}>
+            <FormControl sx={{width: "70%"}}>
+                <FormGroup sx={{ marginBottom: 5}}>
                 
                     <FormLabel htmlFor="title">Title:</FormLabel>
                     <Input name="title" type="text" value={fields.title} onChange={handleChange} required/>
            
                 </FormGroup>
                 
-                <FormGroup sx={{ marginBottom: 3}}>
+                <FormGroup sx={{ marginBottom: 5}}>
                     <FormLabel htmlFor="address">Address:</FormLabel>
                     <div className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-1i1ae5c-MuiInputBase-root-MuiInput-root">
                         <Autocomplete
                         className="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
                         name="address"
+                        color={autoColor}
                         apiKey={GoogleApiKey}
                         options={{types}}
                         onChange={handleChange}
@@ -110,11 +128,13 @@ const EditLocation = (props) => {
                         required/>
                     </div>
                 </FormGroup>
-            <Button type="submit" variant="contained">Update</Button>
+                <Box mt={3}>
+                    <Button type="submit" variant="contained">Update</Button>
+                </Box>
         </FormControl>
         </form>
         </Container>
-    </div>)
+    </Box>)
 }
 
 export default EditLocation
