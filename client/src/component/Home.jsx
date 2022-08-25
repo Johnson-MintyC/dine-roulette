@@ -40,6 +40,13 @@ const Home = (props) => {
     const menuifyLocations = allLocations.map((locale)=> {
         return (<MenuItem value={locale.id}>{locale.title}</MenuItem>)
     })
+
+    //////////////////////////////
+    //  Queires
+    //////////////////////////////
+    const extraCrits = props.userQueries.map((query)=>{
+        return (<MenuItem value={query.text}>{query.title}</MenuItem>)
+    })
     
     ////////////////////////////////////////////
     //  On Spin
@@ -103,6 +110,7 @@ const Home = (props) => {
                             <MenuItem value="cafe">Coffee</MenuItem>
                             <MenuItem value="bar">Bars</MenuItem>
                             <MenuItem value="pub">Pubs</MenuItem>
+                            {extraCrits}
                         </Select>
                         </FormControl>
                     </FormGroup>

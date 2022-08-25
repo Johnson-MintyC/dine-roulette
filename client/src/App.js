@@ -96,6 +96,7 @@ function App() {
   useEffect(() => {
     if (authorised) {
       locationFetch();
+      queriesFetch();
     }
   }, [authorised]);
 
@@ -103,6 +104,16 @@ function App() {
   //  Map Data
   /////////////////////////////////////////
   const [mapCoords, setMapCoords] = useState({ lat: "", lng: "" });
+
+  ////////////////////////////////////////
+  //  Queries
+  ////////////////////////////////////////
+  const [userQueries, setUserQueries] = useState([]);
+  const queriesFetch = async () => {
+    const res = await fetch("/queries");
+    const data = await res.json();
+    setUserQueries(data);
+  };
 
   return (
     <ThemeProvider theme={theTheme}>
@@ -135,6 +146,7 @@ function App() {
                     allLocations={allLocations}
                     setMapCoords={setMapCoords}
                     mapCoords={mapCoords}
+                    userQueries={userQueries}
                   />
                 )}
               </ProtectedRoute>

@@ -207,6 +207,48 @@ def categories():
     allCategories = g.db['cursor'].fetchall()
     return jsonify(allCategories)
 
+################################
+#   Queries
+################################
+#User Queries fetch
+@app.route('/queries')
+def queries():
+    user = session.get('user', None)
+    query = """
+    SELECT categories.title, categories.text 
+    FROM categories
+    JOIN queries 
+    ON queries.cata_id = categories.id
+    WHERE queries.user_id = %s
+    """
+    cur = g.db['cursor']
+    cur.execute(query, (user['id'],))
+    g.db['connection'].commit()
+    storedQueries = cur.fetchall()
+    return jsonify(storedQueries)
+
+#New Query
+@app.route('/queries/new', methods=['POST'])
+def newQueries():
+    cataids = request.json['cataids']
+    user = session.get('user', None)
+    query = """
+        INSERT INTO queries
+        (user_id, cata_id)
+        VALUES (%s, %s)
+        RETURNING *
+    """
+    cur = g.db['cursor']
+    for cata in cataids:
+        cur.execute(query, (user['id'], cata))
+        g.db['connection'].commit()
+
+    return "done"
+
+#Clear Query
+@app.route('/queries/new', methods=['DELETE'])
+
+
 
 ################################
 #   User/Registration
