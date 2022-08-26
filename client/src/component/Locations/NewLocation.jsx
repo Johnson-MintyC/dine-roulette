@@ -94,7 +94,7 @@ const NewLocation = (props) => {
         <Typography variant="h3">New Location</Typography>
         <Container>
         <form method="post" onSubmit={handleSubmit}>
-            <FormControl>
+            <FormControl sx={{width: "70%"}}>
                 <FormGroup sx={{ marginBottom: 3}}>
                     
                     <FormLabel htmlFor="title">Title:</FormLabel>
@@ -119,7 +119,9 @@ const NewLocation = (props) => {
                         <img src={addresspin} onClick={geofunc}/>
                     </div>
                 </FormGroup>
-            <Button type="submit" variant="contained">Create</Button> 
+                <Box mt={3}>
+                    <Button type="submit" variant="contained">Create</Button> 
+                </Box>
         </FormControl>
         </form>
         </Container>

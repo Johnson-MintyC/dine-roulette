@@ -63,6 +63,16 @@ function App() {
   };
 
   /////////////////////////////////////////
+  //  ON boot check
+  /////////////////////////////////////////
+
+  useEffect(() => {
+    loginCheck();
+    savedColor();
+    cataFetch();
+  }, []);
+
+  /////////////////////////////////////////
   //  Auth Check
   ////////////////////////////////////////
 
@@ -73,14 +83,19 @@ function App() {
     setCurrentUser(data.user);
   };
 
-  useEffect(() => {
-    loginCheck();
-    savedColor();
-  }, []);
-
   const handleAuth = (authed) => {
     setAuthorised(authed);
   };
+
+  /////////////////////////////////////////
+  //  On Auth Fetches
+  /////////////////////////////////////////
+  useEffect(() => {
+    if (authorised) {
+      locationFetch();
+      queriesFetch();
+    }
+  }, [authorised]);
 
   ////////////////////////////////////////
   //  For locations
@@ -92,13 +107,6 @@ function App() {
     const data = await res.json();
     setAllLocations(data);
   };
-
-  useEffect(() => {
-    if (authorised) {
-      locationFetch();
-      queriesFetch();
-    }
-  }, [authorised]);
 
   /////////////////////////////////////////
   //  Map Data
@@ -113,6 +121,16 @@ function App() {
     const res = await fetch("/queries");
     const data = await res.json();
     setUserQueries(data);
+  };
+
+  ////////////////////////////////////////
+  //  Categories Fetch
+  ////////////////////////////////////////
+  const [cataData, setCataData] = useState(null);
+  const cataFetch = async () => {
+    const res = await fetch("/categories");
+    const data = await res.json();
+    setCataData(data);
   };
 
   return (
@@ -210,7 +228,20 @@ function App() {
           {mapCoords && (
             <Route path="/map" element={<Map mapCoords={mapCoords} />} />
           )}
-          <Route path="/categories" element={<Categories />} />
+          <Route
+            path="/categories"
+            element={
+              <ProtectedRoute authorised={authorised}>
+                {cataData && (
+                  <Categories
+                    cataData={cataData}
+                    setUserQueries={setUserQueries}
+                    userQueries={userQueries}
+                  />
+                )}
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </ThemeProvider>

@@ -13,8 +13,8 @@ const Landing = () => {
             <Typography variant="h3"sx={{fontFamily: 'Carter One'}}>Dine Roulette</Typography>
             <Box component="img"
                 sx={{
-                    height: 300,
-                    width: 500
+                    height: 200,
+                    width: 400
                     }}
                 src={centerpiece}
                 alt="Gacha-ify your meal" 

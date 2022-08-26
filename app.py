@@ -215,7 +215,7 @@ def categories():
 def queries():
     user = session.get('user', None)
     query = """
-    SELECT categories.title, categories.text 
+    SELECT categories.id, categories.title, categories.text 
     FROM categories
     JOIN queries 
     ON queries.cata_id = categories.id
@@ -246,8 +246,20 @@ def newQueries():
     return "done"
 
 #Clear Query
-@app.route('/queries/new', methods=['DELETE'])
-
+@app.route('/queries/<query_id>', methods=['DELETE'])
+def deleteQueries(query_id):
+    user = session.get('user', None)
+    query = """
+        DELETE FROM queries
+            WHERE id = %s
+            AND queries.user_id = %s
+            RETURNING *
+        """
+    cur = g.db['cursor']
+    cur.execute(query, (query_id, user['id']))
+    g.db['connection'].commit()
+    deleted_query = cur.fetchone()
+    return jsonify(deleted_query)
 
 
 ################################
