@@ -20,7 +20,7 @@ const Landing = () => {
                 alt="Gacha-ify your meal" 
                 />
             <Box sx={{width: "60%"}} mt={2} mb={3} size="small">
-                <Typography variant="p" sx={{fontFamily: 'Comfortaa'}}>Can't decide on your next meal? You and your friends are split on where to go? This is for the times when you want to try something new, but can't decide</Typography>
+                <Typography variant="p" sx={{fontFamily: 'Comfortaa'}}>Can't decide on your next meal? You and your friends are split on where to go? This is for the times when you want to try something new, but can't decide. Or you're bar hopping with your mates without solid planning</Typography>
             </Box>
             <Box>
                 <Button variant="contained" onClick={()=>navigate("/login")}>Login</Button>

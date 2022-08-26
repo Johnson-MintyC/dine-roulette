@@ -14,6 +14,8 @@ import { Input,
     Select, 
     Typography} from '@mui/material'
 
+import addresspin from "../assets/address.png"
+
 const PopupModal = styled(Modal)({
     display: "flex",
     alignItems: "center",
@@ -56,13 +58,13 @@ const Home = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        console.log(fields)
         const res = await fetch("/api", {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(fields)
         })
         const queryData = await res.json()
-        console.log(queryData.length)
         setQueryReturn(queryData)
         randomization(queryData)
     }
@@ -82,6 +84,32 @@ const Home = (props) => {
         props.setMapCoords(result)
     }
 
+    /////////////////////////////////////////////
+    //  Current Location
+    /////////////////////////////////////////////
+    const [currentLocale, setCurrentLocale] = useState()
+    const GeoApiKey = process.env.REACT_APP_GEO_API
+
+    const geofunc = () => {
+        const locationsetter = async (x, y) => {
+            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${x}&lon=${y}&apiKey=${GeoApiKey}`
+            const reponse = await fetch(url)
+            const data = await reponse.json()
+            setCurrentLocale(data.features[0].properties.formatted)
+        }
+
+        const success = (position) => {
+            const latitude = position.coords.latitude
+            const longitude = position.coords.longitude
+            locationsetter(latitude, longitude)
+        }
+
+        const error = () => {
+            console.log("denied")
+        }
+        navigator.geolocation.getCurrentPosition(success, error)
+    }
+
     const navigate = useNavigate()
 
     return (
@@ -94,7 +122,7 @@ const Home = (props) => {
                 <FormControl sx={{width: "80%"}}>
                     <FormGroup sx={{ marginBottom: 3}}>
                         <FormControl>
-                        <FormLabel htmlFor="location">Location: </FormLabel>
+                        <FormLabel htmlFor="location">Location: <Box component="img" src={addresspin} onClick={geofunc} sx={{height: "2rem", width: "2rem"}}/></FormLabel>
                         <Select name="location" id="location-selector" onChange={handleChange} required>
                             <MenuItem value="" disabled selected hidden>Select your option</MenuItem>
                             {menuifyLocations}
@@ -105,7 +133,7 @@ const Home = (props) => {
                     <FormGroup sx={{ marginBottom: 4}}>
                     <FormControl>
                         <FormLabel htmlFor="criteria">Criteria: </FormLabel>
-                        <Select name="criteria" id="criteria-selector" onChange={handleChange}>
+                        <Select name="criteria" id="criteria-selector" onChange={handleChange} required>
                             <MenuItem value="restaurant">Restaurants</MenuItem>
                             <MenuItem value="cafe">Coffee</MenuItem>
                             <MenuItem value="bar">Bars</MenuItem>
@@ -119,7 +147,7 @@ const Home = (props) => {
                         <FormControl >
                         <FormLabel htmlFor="nearby-range">Within: </FormLabel>
                         <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Input name="nearby-range" type="number" min="1" max="30" onChange={handleChange}/><p> km</p>
+                        <Input name="nearby-range" type="number" min="1" max="30" onChange={handleChange} required/><p> km</p>
                         </Box>
                         </FormControl>
                     </FormGroup>

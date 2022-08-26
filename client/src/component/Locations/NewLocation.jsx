@@ -116,7 +116,7 @@ const NewLocation = (props) => {
                             setAddress(place.formatted_address)
                         }}
                         required/>
-                        <img src={addresspin} onClick={geofunc}/>
+                        <Box component="img" src={addresspin} onClick={geofunc}/>
                     </div>
                 </FormGroup>
                 <Box mt={3}>

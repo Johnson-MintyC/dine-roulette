@@ -24,7 +24,7 @@ const Location = (props) => {
 
     return (
     <Box align="center">
-        <h1>Locations</h1>
+        <Typography variant="h3" sx={{fontFamily: 'Comfortaa'}}>Locations</Typography>
         <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Box component="img" src={addicon}  sx={{height: "2rem", width: "2rem"}}/>
             <Link to="/location/new"><h2>Add a Location</h2></Link>

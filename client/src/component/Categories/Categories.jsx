@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material"
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -47,7 +47,7 @@ const Categories = (props) => {
       };
     return (
         <Box align="center">
-            <h1>Categories </h1>
+            <Typography variant="h3" sx={{fontFamily: 'Comfortaa'}}>Categories </Typography>
             <form onSubmit={handleSubmit}>
             <h3>Select to add to your criteria search</h3>
             <Container sx={{display: "flex", justifyContent: "space-around"}}>

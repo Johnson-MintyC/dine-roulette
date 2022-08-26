@@ -6,7 +6,9 @@ import { Input, Box,
     FormControl, 
     FormLabel,
     Container, 
-    IconButton} from '@mui/material'
+    IconButton,
+    Typography
+} from '@mui/material'
 
 import trashIcon from '../../assets/remove-48.png';
 
@@ -98,7 +100,7 @@ const EditLocation = (props) => {
     return (
     <Box align="center" sx={{width: "100%"}}>
         <Box size='size' sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <h1>Edit {showLocation.title}</h1>
+            <Typography variant="h3" sx={{fontFamily: 'Comfortaa'}}>Edit {showLocation.title}</Typography>
             <IconButton onClick={handleDelete}><Box component="img" src={trashIcon} sx={{height: "3rem", width: "3rem"}}/></IconButton>
         </Box>
         <Container>
