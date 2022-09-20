@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
 
 
 
@@ -29,7 +29,7 @@ const Categories = (props) => {
         const loopedcata = {...state, cataids}
         console.log(loopedcata)
         //
-
+        navigate('/home')
 
         const res = await fetch("/queries/new", {
             method: 'POST', 
@@ -37,7 +37,6 @@ const Categories = (props) => {
             body: JSON.stringify(loopedcata)
         })
         const data = await res.json()
-        navigate('/home')
     }
     
     const handleChange = (event) => {
