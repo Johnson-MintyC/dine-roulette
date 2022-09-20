@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -37,6 +37,7 @@ const Categories = (props) => {
             body: JSON.stringify(loopedcata)
         })
         const data = await res.json()
+        navigate('/home')
     }
     
     const handleChange = (event) => {
@@ -71,38 +72,73 @@ const Categories = (props) => {
                     {/* breakpoint */}
                     <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="4" value=""/>
+                        <Checkbox onChange={handleChange} name="4"/>
                         }
-                        label="Curry"/>
+                        label="Dessert"/>
                         <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="5" value=""/>
+                        <Checkbox onChange={handleChange} name="5"/>
                         }
                         label="Noodles"/>
                         <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="6" value=""/>
+                        <Checkbox onChange={handleChange} name="6"/>
                         }
-                        label="Alcohol"/>
+                        label="Burgers"/>
                         <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="7" value=""/>
+                        <Checkbox onChange={handleChange} name="7"/>
                         }
-                        label="Burger"/>
+                        label="Fried Chicken"/>
                         <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="8" value=""/>
+                        <Checkbox onChange={handleChange} name="8"/>
                         }
-                        label="Chicken"/>
+                        label="Pasta"/>
                     
                 </FormGroup>
 
                 <FormGroup>
                 <FormControlLabel
                     control={
-                        <Checkbox onChange={handleChange} name="1" value="cafe&keyword=bubbletea"/>
+                        <Checkbox onChange={handleChange} name="9"/>
                         }
-                        label="Pasta"/>
+                        label="Indian"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="10"/>
+                        }
+                        label="Thai"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="11"/>
+                        }
+                        label="Vietnamese"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="12"/>
+                        }
+                        label="Korean"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="13"/>
+                        }
+                        label="Breakfast"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="14"/>
+                        }
+                        label="Mexican"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="15"/>
+                        }
+                        label="Middle Eastern"/>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={handleChange} name="16"/>
+                        }
+                        label="Fast Food"/>
                 </FormGroup>
                 </Container>
 

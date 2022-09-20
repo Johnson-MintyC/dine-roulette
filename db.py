@@ -8,10 +8,7 @@ import os
 def get_db():
     if 'db' not in g:
         connection = psycopg2.connect(
-            host=os.environ.get('DB_HOST'),
-            database=os.environ.get('DB_DATABASE'),
-            user=os.environ.get('DB_USER'),
-            password=os.environ.get('DB_PASSWORD')
+            os.environ.get('DATABASE_URL')
         )
         cursor = connection.cursor(cursor_factory=RealDictCursor)
         g.db = {
@@ -25,3 +22,9 @@ def close_db():
     if db is not None:
         db['cursor'].close()
         db['connection'].close()
+
+#old db connection
+# host=os.environ.get('DB_HOST'),
+# database=os.environ.get('DB_DATABASE'),
+# user=os.environ.get('DB_USER'),
+# password=os.environ.get('DB_PASSWORD')

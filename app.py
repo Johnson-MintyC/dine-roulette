@@ -4,9 +4,10 @@ from flask import (
     jsonify, 
     request,
     g,
+    render_template,
     session)
 
-from .db import get_db, close_db
+from db import get_db, close_db
 
 import requests, json
 from requests.structures import CaseInsensitiveDict
@@ -22,7 +23,11 @@ import os
 import time
 
 #Instantiations, env variables
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder='client/build/static',
+    template_folder='client/build'
+)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 #db call decorator, and close after req
@@ -68,20 +73,25 @@ def home():
     payload={}
     headers = {}
 
+    print(url1)
+
     response1 = requests.request("GET", url1, headers=headers, data=payload)
     data1 = response1.json()
     queryList.extend(data1['results'])
-    pagetoken1 = data1['next_page_token']
+    try:
+        pagetoken1 = data1['next_page_token']
 
-    #Pause to wait for result for page token
-    time.sleep(2)
+        #Pause to wait for result for page token
+        time.sleep(2)
 
-    url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type={criteria}&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
-    response2 = requests.request("GET", url2, headers=headers, data=payload)
-    data2 = response2.json()
-    queryList.extend(data2['results'])
+        url2 = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location['lati']}%2C{location['long']}&radius={queryRadius}&type={criteria}&key={os.environ.get('GOOGLE_KEY')}&pagetoken={pagetoken1}"
+        response2 = requests.request("GET", url2, headers=headers, data=payload)
+        data2 = response2.json()
+        queryList.extend(data2['results'])
 
-    return queryList
+        return queryList
+    except KeyError:
+        return queryList
 
 ################################
 #   Locations
@@ -352,6 +362,11 @@ def test():
     print(session['user'])
     return jsonify(session['user'])
 
+#catch all route
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react_app(path):
+    return render_template('index.html')
 
 
 

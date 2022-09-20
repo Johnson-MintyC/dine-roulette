@@ -87,28 +87,28 @@ const Home = (props) => {
     /////////////////////////////////////////////
     //  Current Location
     /////////////////////////////////////////////
-    const [currentLocale, setCurrentLocale] = useState()
-    const GeoApiKey = process.env.REACT_APP_GEO_API
+    // const [currentLocale, setCurrentLocale] = useState()
+    // const GeoApiKey = process.env.REACT_APP_GEO_API
 
-    const geofunc = () => {
-        const locationsetter = async (x, y) => {
-            const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${x}&lon=${y}&apiKey=${GeoApiKey}`
-            const reponse = await fetch(url)
-            const data = await reponse.json()
-            setCurrentLocale(data.features[0].properties.formatted)
-        }
+    // const geofunc = () => {
+    //     const locationsetter = async (x, y) => {
+    //         const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${x}&lon=${y}&apiKey=${GeoApiKey}`
+    //         const reponse = await fetch(url)
+    //         const data = await reponse.json()
+    //         setCurrentLocale(data.features[0].properties.formatted)
+    //     }
 
-        const success = (position) => {
-            const latitude = position.coords.latitude
-            const longitude = position.coords.longitude
-            locationsetter(latitude, longitude)
-        }
+    //     const success = (position) => {
+    //         const latitude = position.coords.latitude
+    //         const longitude = position.coords.longitude
+    //         locationsetter(latitude, longitude)
+    //     }
 
-        const error = () => {
-            console.log("denied")
-        }
-        navigator.geolocation.getCurrentPosition(success, error)
-    }
+    //     const error = () => {
+    //         console.log("denied")
+    //     }
+    //     navigator.geolocation.getCurrentPosition(success, error)
+    // }
 
     const navigate = useNavigate()
 
@@ -122,7 +122,7 @@ const Home = (props) => {
                 <FormControl sx={{width: "80%"}}>
                     <FormGroup sx={{ marginBottom: 3}}>
                         <FormControl>
-                        <FormLabel htmlFor="location">Location: <Box component="img" src={addresspin} onClick={geofunc} sx={{height: "2rem", width: "2rem"}}/></FormLabel>
+                        <FormLabel htmlFor="location">Location: <Box component="img" src={addresspin} sx={{height: "2rem", width: "2rem"}}/></FormLabel>
                         <Select name="location" id="location-selector" onChange={handleChange} required>
                             <MenuItem value="" disabled selected hidden>Select your option</MenuItem>
                             {menuifyLocations}

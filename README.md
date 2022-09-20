@@ -35,6 +35,7 @@ password: 123123
 - Flask
 - PostgreSQL
 - Heroku
+- Google MUI
 
 ## Why the above?
 
@@ -97,7 +98,7 @@ Just had a hard days work, and I'm craving a pint, point me towards a pub, so I 
 
 Initial concept and and how the app could flow and interactive was done on Figma,
 </br>
-this did revealed the amount paths this app would and the amount of potential calls would be needed to the backend
+this did revealed the amount paths this app would require and the amount of potential calls would be needed to the backend
 </br>
 [Share](https://www.figma.com/file/bUONj8siujR7CFDPURElbo/Dine-Roulette?node-id=0%3A1)
 </br>
@@ -131,5 +132,7 @@ this did revealed the amount paths this app would and the amount of potential ca
 Originally planned to have reviews, however Zomato API is no longer supported or works
 Learnt how to use Python Scrappy to get the reviews, but have not hooked up the data yet
 
-Also had planned to have the user store the return in a favourites tab, so that they could query later,
+Also had planned to have the user store places in a favourites tab, so that they could query later,
 or generate a random return from favourites
+
+Current Location on home page isn't hooked up will need refactor my code from new locations
