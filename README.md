@@ -8,7 +8,7 @@ Unable to decide on your next meal? or just looking for the next spot in a pub c
 </br>
 Dine Roulette will pick you a spot to go next, and give you directions on how to go there
 </br>
-Click on Dine Roulette to test it out
+Click on [Dine Roulette](https://dineroulette.herokuapp.com/) to test it out
 
 Dine Roulette was developed using this [brief](Brief.md) for the technical requirements
 with the tech up to me to decide on and implement
